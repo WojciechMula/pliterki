@@ -1,0 +1,1969 @@
+#!/usr/bin/env python
+# -*- coding: ISO-8859-2 -*-
+#
+# Wojciech Mu³a
+#
+# Released under GNU GPL license
+#
+# $Id: pliterki.py,v 1.1.1.1 2006-04-03 18:20:33 wojtek Exp $
+
+README = r"""
+                              pliterki
+                              ========
+
+INTRODUCTION
+============
+
+Pliterki is a specialized spellchecker for polish language. It's main purpose
+is fixing polish text by adding missing diacritical characters. If you don't
+speak polish and do not work with polish text, you won't find this program
+useful.
+
+The rest of README is written in polish.
+
+WPROWADZENIE
+============
+
+'Pliterki' zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
+diakrytycznych, czyli popularnych "ogonków". Ich rêczne dostawianie jest
+uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Si³ê programu najlepiej
+widaæ przy poprawianiu tekstów ca³kowicie wyzbytych polskich znaków
+diakrytycznych.
+
+W dalszej czê¶ci README bêdzie u¿ywane okre¶lenie "polskie litery", które
+co prawda nie jest poprawne, ale za to bardziej zwiêz³e od "polskich znaków
+diakrytycznych".
+
+WYMAGANIA
+=========
+
+1. aspell <http://aspell.net>
+
+2. Python w wersji 2.3 lub nowszej
+
+3. polski s³ownik do aspella; polecam <http://www.kurnik.pl/slownik>;
+   je¶li u¿ywasz Debiana: apt-get install aspell-pl
+
+4. rozszerzenie do Python o nazwie aspell-python
+   <http://www.republika.pl/wmula/proj>
+
+5. trochê miejsca w $HOME
+
+OPCJE PROGRAMU
+==============
+
+%s
+
+Pliki s± nadpisywane, do nazwa kopii orygina³u doklejana jest tylda.
+
+PODSTAWY
+========
+
+Program maj±c dane "polskawe" s³owo tworzy listê mo¿liwych s³ów
+zawieraj±cych polskie litery, nastêpnie weryfikuje swoje domys³y sprawdzaj±c
+wszystko w s³owniku i ostatecznie:
+* Je¶li z listy zostanie tylko jedno s³owo, wówczas dokonywana jest
+  automatyczna podmiana (np. 'ktory' -> 'który').
+* Je¶li lista zawiera wiêcej ni¿ jedn± opcjê, wówczas u¿ytkownik proszony
+  jest o wybór (np. 'ktora' -> 'która' ale równie¿ 'któr±'). Wiêcej w sekcji
+  TRYB INTERAKTYWNY.
+
+Domy¶lnie przetwarzane s± wy³±cznie te s³owa, które nie zawieraj± ¿adnej
+polskiej litery, a wiêc sk³adaj± siê jedynie ze znaków z podstawowego
+alfabetu a..z, A..Z.
+
+Mo¿na to zmieniæ podaj±c opcjê -a, wówczas tak¿e s³owa zawieraj±ce polskie
+litery s± spolszczane. U¿yteczne, gdy piszemy w miarê poprawnie, ale zdarza
+nam siê "gubiæ" polskie literki.
+
+PAMIÊÆ PODRÊCZNA
+================
+
+Bardzo istotn± cech± pliterek jest u¿ywanie pamiêci podrêcznej, dziêki czemu
+nie ma potrzeby odpytywaæ za ka¿dym razem aspella -- w efekcie uzyskuje siê
+znaczne przyspieszenie, szczególnie je¶li poprawiane jest kilka tekstów pod
+rz±d, albo tekst jest d³ugi i wracamy do jego korekty kilka razy.
+
+Pamiêæ podrêczna jest zachowywana na dysku, w katalogu $HOME/.pliterki/.
+
+Mo¿na skasowaæ pliki z tego katalogu je¶li zajmuj± za du¿o miejsca albo
+uruchamianie programu trwa za d³ugo (szybko¶æ wczytywania tych plików
+jest ¶ci¶le uzale¿niona od Pythona).
+
+TRYB NIEINTERAKTYWNY
+====================
+
+W tym trybie wykonywane s± wy³±cznie automatyczne zamiany.
+
+TRYB INTERAKTYWNY
+=================
+
+W tym trybie równie¿ wykonywane s± automatyczne zamiany, ale je¶li dla
+danego s³owa istnieje wiêcej ni¿ jedno s³owo, to u¿ytkownik jest proszony
+o wybranie jednego.
+
+Je¶li zostanie podana opcja -d, to w przypadku gdy nie uda siê znale¼æ
+¿adnego s³owa, u¿ytkownik jest proszony o wpisanie jakiego¶, nie
+wystêpuj±cego w s³owniku.
+
+Poni¿ej "zrzut ekranu" z trybu interaktywnego:
+
+################################################################################
+'Pliterki' zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
+diakrytycznych, czyli popularnych "ogonków". Ich rêczne dostawianie jest
+uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Sile programu najlepiej
+                                                 ^^^^
+widac przy poprawianiu tekstow calkowicie wyzbytych polskich znakow
+diakrytycznych.
+
+W dalszej czesci README bedzie uzywane okreslenie "polskie litery", ktore
+co prawda nie jest poprawne, ale za to bardziej zwiezle od "polskich znakow
+=== 12.5%% ======================================================================
+Enter - bez zmian
+1) si³ê
+2) sile
+3) silê
+
+R - zamieñ; A - zamieñ wszystkie; A <numer> - zamieñ wszystkie na s³owo z listy
+I - ignoruj wszystkie
+X - nie pokazuj tego menu
+C - kontynnuj zamianê bez interakcji
+Q - przerwij
+>
+################################################################################
+
+Na górze ekranu wy¶wietlany jest fragment pliku, aktualnie przetwarzane
+s³owo jest podkre¶lone. Poni¿ej wy¶wietlana jest ponumerowana lista
+dostêpnych s³ów.
+
+Naci¶niêcie Entera powoduje pozostawienie s³owa bez zmian.
+
+Wydanie polecenie R lub A (rozmiar liter nie ma znaczenie) wymaga wpisania
+s³owa; je¶li nie bêdzie ono nale¿a³o do s³ownika zostaniemy ostrze¿eni. Po
+zatwierdzeniu, R spowoduje zamianê pod¶wietlanego s³owa, natomiast A zamianê
+tego i wszystkich nastêpnych.
+
+Polecenia I spowoduje, ¿e zaznaczone s³owo zostanie uznane za poprawne
+i wiêcej nie bêdziemy nêkani pytaniami o jego pisowniê.
+
+Polecenie A <numer> (spacja nie jest wymagana) jest szczególnie po¿yteczne
+je¶li widzimy, ¿e na li¶cie znajduj± siê s³owa, które na pewno w
+przetwarzanym tek¶cie nie wyst±pi± (np. dla "lub" lista propozycji to:
+"³ub" i "lub" -- to pierwsze nie jest zbyt powszechne).
+
+UWAGA! S³owa dodane poleceniami R i A, oraz te które zosta³y zignorowane
+~~~~~~ poleceniem I nie s± nigdzie zapisywane. Co wiêcej, je¶li sprawdzamy
+	   wiele plików, to jeste¶my pytani czy skasowaæ te s³owa przed
+	   przyst±pieniem do sprawdzania nastêpnego pliku. Mo¿na wówczas skasowaæ,
+	   pozostawiæ s³owa i równie¿ ustawiæ, by program automatycznie kasowa³
+	   lub nigdy nie kasowa³ obu zbiorów s³ów.
+
+Polecenie X ukrywa menu -- jest wy¶wietlana tylko lista s³ów.
+
+Polecenie C przerywa pracê interaktywn± i powoduje przej¶cie
+w tryb nieinteraktywny.
+
+Polecenie Q przerywa pracê programu.
+
+LICENCJA
+========
+
+Program jest rozpowszechniany na licencji GNU GPL (Powszechnej Publicznej
+Licencji GNU).
+
+AUTOR
+=====
+
+Wojciech Mu³a, wojciech_mula#poczta!onet!pl
+
+# = @
+! = .
+
+=============================================================================
+$Id: pliterki.py,v 1.1.1.1 2006-04-03 18:20:33 wojtek Exp $
+"""
+
+import sys, struct
+
+class SimpleTerm:
+	"""SimpleTerm watch terminal's size. Has also some useful methods"""
+	__default_width, __default_height = 80, 25
+	
+	ESC = '\x1b'
+	BEL = '\x07'
+	def __init__(self, fd=None):
+		"""fd - tty descriptor; if None sys.stdout is used"""
+		if fd:
+			self.fd = fd
+		else:
+			from sys import stdout
+			if stdout.isatty():
+				self.fd = stdout
+			else:
+				self.fd = None
+
+		self.has_fcntl = self.has_env = False
+		
+		if self.fd != None:
+			try:
+				# try to import 'nix fcntl & termios
+				# in order to use console ioctl
+				import fcntl, termios
+				self.has_fcntl = True
+			except ImportError:
+				pass
+
+			try:
+				# are env variables set?
+				import os
+				os.environ['LINES']
+				os.environ['COLUMNS']
+				self.has_env = True
+			except KeyError:
+				pass
+
+			
+			try:
+				# set hook for SIGWINCH if it is possible
+				import signal
+				def handler(signum, frame):
+					self.__width, self.__height = self.__getsize()
+				signal.signal(signal.SIGWINCH, handler)
+			except ImportError:
+				pass
+
+		self.__width, self.__height = self.__getsize()
+				
+	def __getsize(self):
+		"""retreive current terminal size"""
+
+		height = width = 0
+		if self.has_fcntl:
+			import fcntl, struct, termios
+		
+			bytes = fcntl.ioctl(self.fd, termios.TIOCGWINSZ, "\000"*8)
+			height, width = struct.unpack('hh4x', bytes)
+		elif self.has_env:
+			height	= os.environ['LINES']
+			width	= os.environ['COLUMNS']
+
+		if height <= 0 or width <= 0:
+			return (self.__default_width, self.__default_height)
+		else:
+			return (width, height)
+		
+	def clear(self):
+		"""Clear screen"""
+		if self.fd:
+			self.fd.write(self.ESC+'[H')	# clear screen
+			self.fd.write(self.ESC+'[2J')	# move cursor to left-upper corner
+			self.fd.flush()
+	
+	def width(self):
+		"""width of terminal"""
+		return self.__width
+	
+	def height(self):
+		"""height of terminal"""
+		return self.__height
+	
+	def size(self):
+		"""width and height of terminal"""
+		return (self.__width, self.__height)
+	
+	def settitle(self, title):
+		"""set xterm title"""
+		try:
+			import os
+			if os.environ['TERM'] == 'xterm':
+				self.fd.write(self.ESC + ']2;' + title + self.BEL)
+				self.fd.flush()
+		except:
+			pass
+
+Terminal = SimpleTerm()
+
+class Filter:
+	"""
+	Filter process file and depending on its structure
+	returns a text's "dead fields" -- the pieces of text
+	that *must not* be modified.
+	"""
+	def __init__(self):
+		self.reset()
+	
+	def reset(self):
+		"""Reset automat state"""
+		raise RuntimeError('Abstract method called')
+	
+	def process_line(self, text):
+		"""Process line"""
+		raise RuntimeError('Abstract method called')
+
+class HTMLFilter(Filter):
+	"""
+	HTMLFilter leaves regular text and 
+	contents of title and alt attributes
+	"""
+	def reset(self):
+		self.state		= 'text'	# initial state
+
+		import re
+		self.re_split	= re.compile(r"\s+|<!--|-->|<\?|\?>|<|>|\"|title|TITLE|alt|ALT|=")
+		self.re_ws		= re.compile(r"\s+")
+
+# process_line realizes a Mealy's automat. It's states are:
+#
+# * text (regular text we want to check)
+# * comment
+# * php
+# * tag (HTMLtag)
+# * title/alt (title and alt attributes inside tag)
+# * = (character)
+# * string (string enclosed in "")
+#
+# Input signals (tokens) are:
+# * <!--		- start of comment
+# * -->			- end of comment
+# * <?			- start of server-side includes
+# * ?>			- end of server-side includes
+# * <			- start of tag
+# * >			- end of tag
+# * "			- start/end of string
+# * title|TITLE	- attribute
+# * alt|ALT		- attribute
+# * =			- character
+# * whitespaces	- set of continous whitespaces
+# * others		- all other tokens
+#
+# Ouput signals are:
+# 1. open range
+# 2. close range
+# 3. remove last opened, not closed range
+
+	def tokenize(self, line, regexp):
+		"""
+		Works like re.split, but also leaves nonmatched substrings.
+		"""
+		result = []
+		ps = 0
+		pe = 0
+		for match in regexp.finditer(line):
+			s = match.start()
+			e = match.end()
+
+			if s > pe: result.append(line[pe:s])
+
+			result.append(line[s:e])
+			ps, pe = s, e
+		
+		if pe < len(line):
+			result.append(line[pe:])
+
+		return result
+
+	def process_line(self, text):
+	
+		class Ranges:
+			"""List of ranges"""
+			def __init__(self):
+				self.__list		= []
+				self.__finished	= True
+
+			def start(self, s):
+				"start new range"
+				if not self.__finished:
+					raise RuntimeError("Range %d not finished" % len(self.__list))
+				self.__list.append( (s, None) )
+				self.__finished	= False
+
+			def end(self, e):
+				"finish opened range"
+				s, _ = self.__list[-1]
+				self.__list[-1] = (s,e)
+				self.__finished	= True
+			
+			def cancel(self):
+				"nullify opened range"
+				del self.__list[-1]
+				self.__finished	= True
+
+			def isfinished(self):
+				"return true if there is an not closed range"
+				return self.__finished
+
+			def list(self):
+				"return list of ranges; adjecent ranges are glued"
+				if self.__finished:
+					if len(self.__list) < 2: 
+						return self.__list
+					else:
+						tmp = []
+						start,end = self.__list[0]
+						for s,e in self.__list[1:]:
+							if end != s:
+								tmp.append( (start, end) )
+								start, end =  s, e
+							else:
+								end = e
+
+						return tmp + [(start, end)]
+				else:
+					raise RuntimeError('List unfinished!')
+	
+		pos = 0
+		ranges = Ranges()
+		if self.state in ['comment', 'php', 'tag']:
+			# comment, php or tag has started in previous line
+			ranges.start(pos)
+
+		tokens = self.tokenize(text, self.re_split)
+		for input in tokens:
+			if self.state == 'text':
+				if input == '<!--':
+					ranges.start(pos)
+					self.state = 'comment'
+				elif input == '<?':
+					ranges.start(pos)
+					self.state = 'ssi'
+				elif input == '<':
+					ranges.start(pos)
+					self.state = 'tag'
+
+			elif self.state == 'ssi':
+				if input == '?>':
+					ranges.end(pos + len(input))
+					self.state = 'text'
+
+			elif self.state == 'comment':
+				if input == '-->':
+					ranges.end(pos + len(input))
+					self.state = 'text'
+
+			elif self.state == 'tag':
+				if input == '>':
+					ranges.end(pos + len(input))
+					self.state = 'text'
+				elif input in ['title','TITLE','alt','ALT']:
+					self.state = 'title/alt'
+
+			elif self.state == 'title/alt':
+				if input == '>':
+					ranges.end(pos + len(input))
+					self.state = 'text'
+				elif self.re_ws.match(input):
+					pass
+				elif input == '=':
+					self.state = '='
+				else:
+					self.state = 'tag'
+
+			elif self.state == '=':
+				if self.re_ws.match(input):
+					pass
+				elif input == '"':
+					ranges.end(pos + len(input))
+					self.state = 'string'
+				elif input == '>':
+					ranges.end(pos + len(input))
+					self.state = 'text'
+				else:
+					self.state = 'tag'
+
+			elif self.state == 'string':
+				if input == '>':
+					ranges.cancel()
+					self.state = 'text'
+				elif input == '"':
+					ranges.start(pos)
+					self.state = 'tag'
+
+			else:
+				raise RuntimeError('Automat error, unknown state %s' % self.state)
+
+			pos = pos + len(input)
+		
+		if not ranges.isfinished():
+			ranges.end(pos)
+		return ranges.list()
+
+class RAW:
+	"""
+	Random Access Words
+	"""
+	
+	def __init__(self, text):
+		self.__lengthchanged = False	# length of string changed: update is needed
+		self.__stringchanged = False	# string is changed: update is needed
+		self.__str		= text		# string representation
+		self.__fields		= [ (text, (0,len(text)), None) ]
+
+	def __split(self, text, regexp, Match=True, NotMatch=False):
+		result = []
+		ps = 0
+		pe = 0
+		for match in regexp.finditer(text):
+			s = match.start()
+			e = match.end()
+
+			if s > pe: result.append( (text[pe:s], (0,0), NotMatch) )
+
+			result.append( (text[s:e], (0,0), Match) )
+			ps, pe = s, e
+	
+		if pe < len(text):
+			result.append( (text[pe:], (0,0), NotMatch) )
+
+		return result
+	
+	def __update(self):
+		if self.__lengthchanged:
+			start = 0
+			for index, item in enumerate(self.__fields):
+				substring, _, type = item
+			
+				s = start
+				l = len(substring)
+				self.__fields[index] = (substring, (s,l), type)
+				start = start + l
+
+		if self.__stringchanged:
+			self.__str = "".join([substring for substring,_,_ in self.__fields])
+	
+	def split_field(self, index, regexp, Match, NotMatch):
+		"""split given field"""
+		self.__lengthchanged	= True
+		self.__stringchanged	= True
+		
+		text	= self.__fields[index][0]
+		tmp		= self.__split(text, regexp, Match, NotMatch)
+		self.__fields = self.__fields[:index] + tmp + self.__fields[index+1:]
+
+	def split_fields(self, pred, regexp, Match, NotMatch):
+		"""
+		Split field if pred (callable) is true.
+		If pred is None all fields are splitted.
+		Pred gets following argumens: substring, start, end, optional.
+		"""
+		if pred:
+			indexes = [i for i in xrange(len(self.__fields)) if pred(*self.__fields[i])]
+		else:
+			indexes = range(len(self.__fields))
+
+		indexes.reverse()
+		for i in indexes:
+			self.split_field(i, regexp, Match, NotMatch)
+	
+	def split_constant_field(self, index, list, Inside, Outside):
+		"""
+		List is a list of pairs: start index, end index. Each pair
+		define field which has Inside type.
+
+		Example:
+
+		Let field 'index' contains text "11 != 152" and list is
+		[(0,2), (6,9)], Inside=='number', Outside=='other'.
+		Method will split field into list:
+
+			[("11", (..), 'number'),
+			 (" != ", (..), 'other'),
+			 ("152", (..), 'number']
+		"""
+		if list == None or len(list) == 0:
+			substring, se, _ = self.__fields[index]
+			self.__fields[index] = (substring, se, Outside)
+			return
+		
+		self.__lengthchanged	= True
+		self.__stringchanged	= True
+
+		text = self.__fields[index][0]
+		tmp  = []
+
+		ps = 0
+		pe = 0
+		for i, item in enumerate(list):
+			s, e = item
+			if s > e or s < pe:
+				raise ValueError("Invalid range (%d,%d) at index %d" % (s, e, i) )
+
+			if s > pe:
+				tmp.append( (text[pe:s], (0,0), Outside) )
+
+			tmp.append( (text[s:e], (0,0), Inside) )
+			ps, pe = s, e
+		
+		if pe < len(text):
+			tmp.append( (text[pe:], (0,0), Outside) )
+
+		self.__fields = self.__fields[:index] + tmp + self.__fields[index+1:]
+	
+	def __iter__(self):
+		"""start iteration"""
+		self.__update()
+		self.__index = 0
+		return self
+	
+	def next(self):
+		"""next iteration"""
+		if self.__index >= len(self.__fields):
+			raise StopIteration
+
+		field = self.__fields[self.__index]
+		self.__index = self.__index + 1
+		return field
+
+	def __getitem__(self, index):
+		self.__update()
+		return self.__fields[index]
+
+	def __setitem__(self, index, value):
+		"""
+		setitem support two kinds of types:
+		1. object[index] = string -- overrides substring field
+		2. object[index] = (string, type) -- overrides both substring
+		                                     and type fields
+		"""
+		import types
+		if isinstance(value, types.StringType):
+			substring = value
+			type = self.__fields[index][2]
+		else:
+			substring, type = value
+
+		self.__stringchanged = True
+		self.__lengthchanged = self.__lengthchanged or len(substring) != len(self.__fields[index][0])
+		
+		self.__fields[index] = (substring, (0,0), type)
+	
+	def __delitem__(self, index):
+		del self.__fields[index]
+	
+	def __len__(self):
+		return len(self.__fields)
+
+	def __str__(self):
+		self.__update()
+		return self.__str
+
+class SpellerEditor:
+
+	def __init__(self, file_handle, re_split1, split1, re_split2, split2, re_mark, mark, filter=None):
+
+		self.regexp_split1	= re_split1
+		self.regexp_split2	= re_split2
+		self.regexp_mark	= re_mark
+		self.split1_val		= split1
+		self.split2_val		= split2
+		self.mark_val		= mark
+
+		if filter:
+			filter.reset()
+
+		self.Lines = []
+		for line in file_handle:
+			if line[-1] == os.linesep:
+				line = line[:-1]
+
+			if filter:
+				ranges = filter.process_line(line)
+			else:
+				ranges = None
+	
+			self.Lines.append( (line, ranges) )
+
+	def edit(self, line_num):
+		if not isinstance(self.Lines[line_num][0], RAW):
+
+			line, ranges = self.Lines[line_num]
+			tmp = RAW(line)
+
+			tmp.split_constant_field(0, ranges, '__fixed__', None)
+
+			tmp.split_fields(lambda dummy1,dummy2,type: type==None, self.regexp_split1, self.split1_val, None)
+			tmp.split_fields(lambda dummy1,dummy2,type: type==None, self.regexp_split2, self.split2_val, None)
+			for index, item in enumerate(tmp):
+				substring, _, type = item
+				if type == None:
+					if self.regexp_mark.match(substring):
+						tmp[index] = (substring, self.mark_val)
+					else:
+						tmp[index] = (substring, '__other__')
+
+			self.Lines[line_num] = (tmp, ranges)
+		
+	def save(self, line_num):
+		if isinstance(self.Lines[line_num][0], RAW):
+			tmp, ragnes = self.Lines[line_num]
+			text = str(tmp)
+
+			# recalculate ranges
+			ranges = []
+			for _, sl, type in tmp:
+				if type == '__fixed__':
+					s,l = sl
+					e   = s + l
+					ranges.append( (s,e) )
+
+			self.Lines[line_num] = (text, ranges)
+	
+	def __len__(self):
+		return len(self.Lines)
+
+	def __getitem__(self, line_num):
+		return self.Lines[line_num][0]
+
+	def __iter__(self):
+		self.index = 0
+		return self
+	
+	def next(self):
+		if self.index == len(self.Lines):
+			raise StopIteration
+		
+		f = self.Lines[self.index][0]
+		self.index = self.index + 1
+		return f
+	
+	def line(self, line_num):
+		if isinstance(self.Lines[line_num][0], RAW):
+			return str(self.Lines[line_num][0])
+		else:
+			return self.Lines[line_num][0]
+	
+	def iterlines(self):
+		for line, _ in self.Lines:
+			if isinstance(line, RAW):
+				yield str(line)
+			else:
+				yield line
+
+def clone_case(word1, word2):
+	"""
+	Sets same case of word2's letters, as word1 has.
+	For example clone_case("HaXoRs","python") returns "PyThOn"
+
+	If word1 is not upper/lower/capitlize and it's length is different
+	then word2's length then unchanged word2 is returned.
+	"""
+	
+	if word1.isupper():
+		return word2.upper()
+	elif word1.islower():
+		return word2.lower()
+	elif word1[0].isupper() and word1[1:].islower():
+		return word2.capitalize()
+	elif len(word1) == len(word2):
+		word2 = list(word2)
+		for i in xrange(len(word1)):
+			if word1[i].isupper():
+				word2[i] = word2[i].upper()
+			else:
+				word2[i] = word2[i].lower()
+		return "".join(word2)
+	else:
+		return word2
+
+def comb(list):
+	"""
+	Generator returns all possible combinations of
+	elements from lists.
+	List is a list of lists (or tuples, or string).
+
+	For example:
+
+	>>> for i in comb( ['abc','de','f'] ):
+	>>> ...   print i
+	>>> ...
+	['a', 'd', 'f']
+	['b', 'd', 'f']
+	['c', 'd', 'f']
+	['a', 'e', 'f']
+	['b', 'e', 'f']
+	['c', 'e', 'f']
+	"""
+	n	= len(list)
+	max	= [len(item) for item in list]
+	current	= [0]*n
+	run	= True
+	while run:
+		yield [list[i][current[i]] for i in xrange(n)]
+		
+		carry = 1
+		for i in xrange(n):
+			current[i] = current[i] + carry
+			if current[i] == max[i]:
+				current[i] = 0
+				carry = 1
+			else:
+				carry = 0
+				break
+		if carry == 1:
+			break
+
+import sets
+
+# [a-z±æê³ñó¶¿¼][±æê³ñó¶¿¼][a-z±æê³ñó¶¿¼]
+# all possible neigbours of polish diacritical characters
+pl_triples = sets.Set([
+'a³a', 'a³b', 'a³c', 'a³d', 'a³e', 'a³f', 'a³g', 'a³k',
+'a³m', 'a³n', 'a³o', 'a³p', 'a³s', 'a³t', 'a³u', 'a³w',
+'a³y', 'a³z', 'a³±', 'a³¿', 'a³æ', 'a³ê', 'a³ó', 'a¶a',
+'a¶b', 'a¶c', 'a¶k', 'a¶l', 'a¶m', 'a¶n', 'a¶p', 'a¶r',
+'a¶w', 'a¶z', 'a¶¿', 'a¶æ', 'a¶ñ', 'a¼b', 'a¼c', 'a¼d',
+'a¼g', 'a¼k', 'a¼l', 'a¼m', 'a¼n', 'a¼r', 'a¼w', 'a¼z',
+'a¼¿', 'a¼æ', 'a¼ñ', 'a¿a', 'a¿b', 'a¿c', 'a¿d', 'a¿e',
+'a¿g', 'a¿i', 'a¿k', 'a¿l', 'a¿m', 'a¿n', 'a¿o', 'a¿p',
+'a¿r', 'a¿s', 'a¿u', 'a¿y', 'a¿z', 'a¿±', 'a¿³', 'a¿¿',
+'a¿ê', 'a¿ñ', 'a¿ó', 'aæa', 'aæc', 'aæk', 'aæm', 'aæp',
+'aæw', 'aæz', 'aæ¿', 'añb', 'añc', 'añd', 'añk', 'añm',
+'añs', 'añt', 'añz', 'añ¿', 'añæ', 'aów', 'b±b', 'b±c',
+'b±d', 'b±k', 'b±s', 'b³a', 'b³b', 'b³c', 'b³e', 'b³k',
+'b³o', 'b³p', 'b³s', 'b³u', 'b³y', 'b³±', 'b³ê', 'b³ó',
+'b¶c', 'b¶l', 'b¶m', 'b¼d', 'b¿a', 'b¿d', 'b¿e', 'b¿y',
+'b¿±', 'b¿ê', 'bêb', 'bêc', 'bêd', 'bêk', 'bób', 'bód',
+'bóg', 'bói', 'bój', 'ból', 'bór', 'bós', 'bót', 'bów',
+'bóz', 'bó³', 'bó¶', 'bó¿', 'c±c', 'c±z', 'c±¿', 'c³a',
+'c³e', 'c³o', 'c³u', 'c¼n', 'c¿e', 'cêg', 'cêt', 'cór',
+'ców', 'cóz', 'có¿', 'd±b', 'd±c', 'd±k', 'd±l', 'd±s',
+'d±w', 'd±z', 'd±³', 'd±¿', 'd±æ', 'd³a', 'd³b', 'd³c',
+'d³e', 'd³k', 'd³o', 'd³s', 'd³u', 'd³y', 'd³±', 'd³ê',
+'d³ó', 'd¶c', 'd¶l', 'd¶m', 'd¶n', 'd¶p', 'd¶r', 'd¶w',
+'d¼a', 'd¼b', 'd¼c', 'd¼e', 'd¼g', 'd¼i', 'd¼k', 'd¼m',
+'d¼n', 'd¼o', 'd¼p', 'd¼r', 'd¼s', 'd¼w', 'd¼z', 'd¼±',
+'d¼¿', 'd¼ê', 'd¼ñ', 'd¿a', 'd¿c', 'd¿d', 'd¿e', 'd¿i',
+'d¿k', 'd¿l', 'd¿m', 'd¿n', 'd¿o', 'd¿p', 'd¿r', 'd¿u',
+'d¿y', 'd¿z', 'd¿±', 'd¿¿', 'd¿ê', 'd¿ó', 'dêb', 'dêc',
+'dêd', 'dêg', 'dêk', 'dêl', 'dêt', 'dê³', 'dêæ', 'dób',
+'dój', 'dól', 'dór', 'dós', 'dów', 'dóz', 'dó³', 'e³a',
+'e³b', 'e³c', 'e³d', 'e³e', 'e³g', 'e³k', 'e³l', 'e³m',
+'e³n', 'e³o', 'e³p', 'e³s', 'e³t', 'e³u', 'e³y', 'e³z',
+'e³±', 'e³³', 'e³¼', 'e³¿', 'e³ê', 'e³ñ', 'e³ó', 'e¶c',
+'e¶k', 'e¶l', 'e¶m', 'e¶n', 'e¶p', 'e¶r', 'e¶w', 'e¶z',
+'e¶¿', 'e¶æ', 'e¶ñ', 'e¼b', 'e¼c', 'e¼d', 'e¼g', 'e¼l',
+'e¼m', 'e¼n', 'e¼r', 'e¼w', 'e¼z', 'e¼¿', 'e¼æ', 'e¿a',
+'e¿b', 'e¿c', 'e¿d', 'e¿e', 'e¿g', 'e¿i', 'e¿k', 'e¿l',
+'e¿m', 'e¿n', 'e¿o', 'e¿p', 'e¿r', 'e¿s', 'e¿u', 'e¿w',
+'e¿y', 'e¿z', 'e¿±', 'e¿³', 'e¿¿', 'e¿ê', 'e¿ó', 'eæc',
+'eæd', 'eæk', 'eæm', 'eæp', 'eæs', 'eæw', 'eæz', 'eæ¿',
+'eñc', 'eñd', 'eñk', 'eñm', 'eñs', 'eñt', 'eñz', 'eñ¿',
+'eós', 'eów', 'eó¶', 'f±f', 'f¿e', 'fór', 'fów', 'g±b',
+'g±c', 'g±d', 'g±g', 'g±s', 'g±z', 'g³a', 'g³b', 'g³e',
+'g³o', 'g³s', 'g³u', 'g³y', 'g³z', 'g³±', 'g³¿', 'g³ê',
+'g³ó', 'g¶c', 'g¼l', 'g¿a', 'g¿e', 'g¿o', 'g¿y', 'g¿±',
+'g¿ê', 'g¿ó', 'gêb', 'gêd', 'gêg', 'gês', 'gêz', 'gê¶',
+'gód', 'gój', 'gól', 'gór', 'gów', 'góz', 'gó³', 'gó¿',
+'h±s', 'h³a', 'h³b', 'h³e', 'h³o', 'h³s', 'h³u', 'h³y',
+'h³±', 'h³ê', 'h³ó', 'h¶k', 'h¶w', 'h¿e', 'hæc', 'hæm',
+'hæz', 'hæ¿', 'hêc', 'hêd', 'hêt', 'hêæ', 'hód', 'hór',
+'hów', 'i±b', 'i±c', 'i±d', 'i±g', 'i±j', 'i±k', 'i±l',
+'i±p', 'i±s', 'i±t', 'i±w', 'i±z', 'i±³', 'i±¶', 'i±¼',
+'i±¿', 'i±æ', 'i³a', 'i³b', 'i³c', 'i³e', 'i³g', 'i³k',
+'i³l', 'i³o', 'i³s', 'i³u', 'i³y', 'i³z', 'i³±', 'i³³',
+'i³¿', 'i³ê', 'i³ó', 'i¶c', 'i¶k', 'i¶l', 'i¶m', 'i¶n',
+'i¶t', 'i¶w', 'i¶z', 'i¶³', 'i¶¿', 'i¶æ', 'i¼d', 'i¼l',
+'i¼n', 'i¿a', 'i¿b', 'i¿c', 'i¿d', 'i¿e', 'i¿k', 'i¿m',
+'i¿n', 'i¿o', 'i¿s', 'i¿u', 'i¿y', 'i¿z', 'i¿±', 'i¿¿',
+'i¿ê', 'i¿ó', 'iæc', 'iæk', 'iæm', 'iæz', 'iæ¿', 'iêb',
+'iêc', 'iêd', 'iêg', 'iêk', 'iêl', 'iêr', 'iês', 'iêt',
+'iêw', 'iêz', 'iê³', 'iê¶', 'iê¼', 'iê¿', 'iêæ', 'iñc',
+'iñk', 'iñm', 'iñs', 'iñz', 'iñ¿', 'iób', 'iód', 'iól',
+'iór', 'iós', 'iót', 'iów', 'ióz', 'ió³', 'j±c', 'j±d',
+'j±k', 'j±l', 'j±s', 'j±t', 'j±w', 'j±z', 'j±³', 'j±¶',
+'j±¿', 'j±æ', 'j³a', 'j³e', 'j³o', 'j³u', 'j³y', 'j³z',
+'j³±', 'j³ê', 'j³ó', 'j¶c', 'j¶j', 'j¶k', 'j¶l', 'j¶m',
+'j¶n', 'j¶p', 'j¶r', 'j¶w', 'j¶æ', 'j¼r', 'j¿a', 'j¿e',
+'j¿m', 'j¿o', 'j¿w', 'j¿y', 'j¿ó', 'jêc', 'jêd', 'jêk',
+'jêl', 'jêt', 'jêz', 'jê³', 'jê¿', 'jêæ', 'jñc', 'jñs',
+'jów', 'józ', 'k±c', 'k±d', 'k±k', 'k±p', 'k±s', 'k±t',
+'k±z', 'k±¶', 'k±¿', 'k³a', 'k³b', 'k³e', 'k³o', 'k³s',
+'k³u', 'k³y', 'k³±', 'k³ê', 'k³ó', 'k¶c', 'k¿a', 'k¿e',
+'kêc', 'kêd', 'kêp', 'kês', 'kêt', 'kê¶', 'kób', 'kód',
+'kój', 'kól', 'kóp', 'kór', 'ków', 'kóz', 'kó³', 'l±b',
+'l±c', 'l±d', 'l±g', 'l±k', 'l±l', 'l±s', 'l±t', 'l±w',
+'l±z', 'l±³', 'l±¼', 'l±¿', 'l±æ', 'l³a', 'l³b', 'l³e',
+'l³o', 'l³s', 'l³u', 'l³y', 'l³±', 'l³ê', 'l³ó', 'l¶l',
+'l¶m', 'l¶n', 'l¶p', 'l¶r', 'l¶w', 'l¶ñ', 'l¼l', 'l¼n',
+'l¿a', 'l¿b', 'l¿c', 'l¿e', 'l¿m', 'l¿n', 'l¿o', 'l¿u',
+'l¿y', 'l¿z', 'l¿±', 'l¿¿', 'l¿ê', 'l¿ó', 'læc', 'læm',
+'læw', 'læz', 'læ¿', 'lêb', 'lêc', 'lêd', 'lêg', 'lêk',
+'lêl', 'lêp', 'lês', 'lêt', 'lêz', 'lê³', 'lê¶', 'lê¼',
+'lê¿', 'lêæ', 'lñc', 'lñm', 'lñz', 'lñ¿', 'lób', 'lóc',
+'lód', 'lóg', 'lój', 'lók', 'lós', 'lót', 'lów', 'lóz',
+'ló¼', 'ló¿', 'lóæ', 'm±c', 'm±d', 'm±k', 'm±t', 'm±z',
+'m±¿', 'm±æ', 'm³a', 'm³o', 'm³y', 'm³ó', 'm¶c', 'm¶k',
+'m¶m', 'm¶z', 'm¶¿', 'm¿a', 'm¿e', 'm¿o', 'm¿y', 'm¿±',
+'m¿ê', 'mæp', 'mêc', 'mêd', 'mêk', 'mês', 'mêt', 'mêz',
+'mê¶', 'mê¿', 'mêæ', 'móc', 'mód', 'móg', 'mój', 'mók',
+'mól', 'mór', 'mów', 'móz', 'mó³', 'mó¿', 'n±b', 'n±c',
+'n±d', 'n±l', 'n±t', 'n±w', 'n±z', 'n±³', 'n±¿', 'n±æ',
+'n³y', 'n¶c', 'n¿a', 'n¿c', 'n¿e', 'n¿k', 'n¿o', 'n¿u',
+'n¿y', 'n¿±', 'n¿ê', 'n¿ó', 'nêb', 'nêc', 'nêd', 'nêk',
+'nêl', 'nêt', 'nê³', 'nêæ', 'nóg', 'nój', 'nós', 'nót',
+'nów', 'nóz', 'nó¿', 'o³a', 'o³b', 'o³c', 'o³d', 'o³e',
+'o³f', 'o³g', 'o³h', 'o³i', 'o³j', 'o³k', 'o³l', 'o³m',
+'o³n', 'o³o', 'o³p', 'o³r', 'o³s', 'o³t', 'o³u', 'o³w',
+'o³y', 'o³z', 'o³±', 'o³³', 'o³¶', 'o³¿', 'o³æ', 'o³ê',
+'o³ó', 'o¶b', 'o¶c', 'o¶k', 'o¶l', 'o¶m', 'o¶n', 'o¶p',
+'o¶r', 'o¶w', 'o¶z', 'o¶¿', 'o¶æ', 'o¼b', 'o¼c', 'o¼d',
+'o¼g', 'o¼l', 'o¼m', 'o¼n', 'o¼r', 'o¼w', 'o¼z', 'o¼¿',
+'o¼ñ', 'o¿a', 'o¿b', 'o¿c', 'o¿d', 'o¿e', 'o¿g', 'o¿k',
+'o¿l', 'o¿m', 'o¿n', 'o¿o', 'o¿r', 'o¿s', 'o¿u', 'o¿y',
+'o¿z', 'o¿±', 'o¿³', 'o¿¿', 'o¿ê', 'o¿ó', 'oæb', 'oæc',
+'oæk', 'oæm', 'oæp', 'oæs', 'oæw', 'oæz', 'oæ¿', 'oñc',
+'oñk', 'oñm', 'oñs', 'oñz', 'oñ¿', 'oów', 'p±c', 'p±g',
+'p±k', 'p±s', 'p±t', 'p³a', 'p³b', 'p³c', 'p³e', 'p³k',
+'p³o', 'p³s', 'p³u', 'p³y', 'p³±', 'p³ê', 'p³ó', 'p¶c',
+'p¿a', 'p¿e', 'pæc', 'pæm', 'pæz', 'pæ¿', 'pêc', 'pêd',
+'pêk', 'pêp', 'pês', 'pêt', 'pód', 'pój', 'pók', 'pól',
+'pór', 'pót', 'pów', 'póz', 'pó³', 'pó¼', 'r±b', 'r±c',
+'r±d', 'r±g', 'r±k', 'r±p', 'r±s', 'r±t', 'r±z', 'r±¶',
+'r±¿', 'r±æ', 'r³a', 'r³b', 'r³e', 'r³o', 'r³s', 'r³u',
+'r³y', 'r³±', 'r³ê', 'r³ó', 'r¶c', 'r¶n', 'r¶w', 'r¶æ',
+'r¼c', 'r¼l', 'r¼m', 'r¼n', 'r¼z', 'r¼¿', 'r¿a', 'r¿c',
+'r¿e', 'r¿k', 'r¿l', 'r¿m', 'r¿n', 'r¿o', 'r¿u', 'r¿y',
+'r¿z', 'r¿±', 'r¿¿', 'r¿ê', 'r¿ó', 'ræa', 'ræc', 'ræd',
+'ræf', 'ræi', 'ræk', 'ræl', 'ræm', 'ræn', 'ræp', 'ræt',
+'ræw', 'ræz', 'ræ¿', 'rêb', 'rêc', 'rêd', 'rêg', 'rêk',
+'rên', 'rêp', 'rês', 'rêt', 'rêz', 'rê¼', 'rê¿', 'rêæ',
+'rñc', 'rñm', 'rñz', 'rñ¿', 'rób', 'róc', 'ród', 'róg',
+'rói', 'rój', 'ról', 'rós', 'rót', 'rów', 'róz', 'ró¶',
+'ró¼', 'ró¿', 'róæ', 's±c', 's±d', 's±g', 's±s', 's±z',
+'s±¿', 's³a', 's³b', 's³e', 's³o', 's³s', 's³u', 's³y',
+'s³±', 's³ê', 's³ó', 's¼n', 's¿a', 's¿c', 's¿e', 's¿m',
+'s¿o', 's¿z', 's¿¿', 'sæc', 'sæd', 'sæk', 'sæm', 'sæs',
+'sæu', 'sæz', 'sæ¿', 'sêc', 'sêd', 'sêk', 'sêp', 'sñc',
+'sñm', 'sñz', 'sñ¿', 'sób', 'sód', 'sój', 'sól', 'sów',
+'só³', 't±c', 't±d', 't±g', 't±p', 't±z', 't±¿', 't³a',
+'t³b', 't³e', 't³o', 't³s', 't³u', 't³y', 't³±', 't³ê',
+'t³ó', 't¿a', 't¿e', 'têb', 'têc', 'têd', 'têg', 'têk',
+'têp', 'tês', 'têt', 'têz', 'tê¿', 'têæ', 'tóg', 'tój',
+'tól', 'tóp', 'tór', 'tów', 'tóz', 'tó³', 'tó¿', 'u³a',
+'u³b', 'u³c', 'u³e', 'u³g', 'u³k', 'u³l', 'u³m', 'u³o',
+'u³t', 'u³u', 'u³y', 'u³±', 'u³³', 'u³ê', 'u³ó', 'u¶c',
+'u¶k', 'u¶l', 'u¶m', 'u¶n', 'u¶p', 'u¶r', 'u¶t', 'u¶w',
+'u¶z', 'u¶¿', 'u¶æ', 'u¼c', 'u¼d', 'u¼k', 'u¼l', 'u¼m',
+'u¼n', 'u¼z', 'u¼¿', 'u¼ñ', 'u¿a', 'u¿b', 'u¿c', 'u¿d',
+'u¿e', 'u¿g', 'u¿k', 'u¿l', 'u¿m', 'u¿n', 'u¿o', 'u¿p',
+'u¿r', 'u¿s', 'u¿u', 'u¿y', 'u¿z', 'u¿±', 'u¿¿', 'u¿ê',
+'u¿ó', 'uæc', 'uæk', 'uæm', 'uæz', 'uæ¿', 'uñc', 'uñk',
+'uñm', 'uñs', 'uñz', 'uñ¿', 'uñæ', 'uów', 'vów', 'w±b',
+'w±c', 'w±d', 'w±g', 'w±k', 'w±p', 'w±s', 'w±t', 'w±w',
+'w±z', 'w±¶', 'w±¿', 'w³a', 'w³e', 'w³o', 'w³u', 'w³y',
+'w³±', 'w³ó', 'w¶c', 'w¶l', 'w¶n', 'w¶p', 'w¶r', 'w¶w',
+'w¿a', 'w¿d', 'w¿e', 'w¿y', 'w¿±', 'w¿ê', 'wæw', 'wêb',
+'wêc', 'wêd', 'wêg', 'wêk', 'wês', 'wêt', 'wêz', 'wê¼',
+'wê¿', 'wóc', 'wód', 'wóg', 'wói', 'wój', 'wól', 'wóm',
+'wór', 'wów', 'wóz', 'wó³', 'wó¼', 'wó¿', 'xów', 'y³a',
+'y³b', 'y³c', 'y³e', 'y³g', 'y³k', 'y³o', 'y³u', 'y³y',
+'y³z', 'y³±', 'y³¿', 'y³ê', 'y³ó', 'y¶c', 'y¶k', 'y¶l',
+'y¶m', 'y¶n', 'y¶p', 'y¶r', 'y¶w', 'y¶z', 'y¶¿', 'y¶æ',
+'y¼c', 'y¼l', 'y¼m', 'y¼n', 'y¼z', 'y¼¿', 'y¼æ', 'y¿a',
+'y¿b', 'y¿c', 'y¿e', 'y¿k', 'y¿l', 'y¿m', 'y¿n', 'y¿o',
+'y¿p', 'y¿r', 'y¿s', 'y¿u', 'y¿w', 'y¿y', 'y¿z', 'y¿±',
+'y¿³', 'y¿¿', 'y¿ê', 'y¿ó', 'yæc', 'yæm', 'yæu', 'yæw',
+'yæz', 'yæ¿', 'yñc', 'yñk', 'yñm', 'yñs', 'yñz', 'yñ¿',
+'yów', 'z±b', 'z±c', 'z±d', 'z±g', 'z±k', 'z±l', 'z±p',
+'z±s', 'z±t', 'z±w', 'z±z', 'z±³', 'z±¶', 'z±¼', 'z±¿',
+'z±æ', 'z³a', 'z³b', 'z³e', 'z³k', 'z³o', 'z³s', 'z³u',
+'z³y', 'z³z', 'z³±', 'z³ó', 'z¶c', 'z¶l', 'z¶m', 'z¶n',
+'z¶p', 'z¶r', 'z¶w', 'z¿a', 'z¿e', 'z¿o', 'z¿u', 'z¿y',
+'z¿±', 'z¿ê', 'z¿ó', 'zæw', 'zêb', 'zêc', 'zêd', 'zêg',
+'zêk', 'zêl', 'zêp', 'zês', 'zêt', 'zêz', 'zê³', 'zê¶',
+'zê¼', 'zê¿', 'zêæ', 'zña', 'zñc', 'zñe', 'zñi', 'zñm',
+'zño', 'zñz', 'zñ±', 'zñ¿', 'zñê', 'zód', 'zóg', 'zól',
+'zór', 'zós', 'zów', 'zóz', 'zó³', 'zó¶', '£êg', '±³b',
+'±³e', '±³s', '±¶c', '±¶k', '±¶l', '±¶m', '±¶n', '±¶z',
+'±¶¿', '±¶æ', '±¼c', '±¼l', '±¼æ', '±¿a', '±¿c', '±¿e',
+'±¿k', '±¿l', '±¿m', '±¿n', '±¿o', '±¿p', '±¿s', '±¿u',
+'±¿y', '±¿z', '±¿±', '±¿¿', '±¿ê', '±¿ó', '±æc', '±æm',
+'±æz', '±æ¿', '³±b', '³±c', '³±d', '³±g', '³±k', '³±s',
+'³±t', '³±z', '³±¼', '³³a', '³³b', '³³e', '³³o', '³³s',
+'³³u', '³³y', '³³±', '³³ê', '³³ó', '³¶l', '³¶m', '³¶n',
+'³¶p', '³¶r', '³¶w', '³¼l', '³¼n', '³¿a', '³¿e', '³¿o',
+'³¿u', '³¿y', '³¿±', '³¿ê', '³¿ó', '³æc', '³æm', '³æw',
+'³æz', '³æ¿', '³êb', '³êc', '³êd', '³êg', '³êk', '³êp',
+'³ês', '³êt', '³êz', '³ê¼', '³ê¿', '³ñc', '³ñm', '³ñz',
+'³ñ¿', '³ób', '³óc', '³ód', '³óg', '³ój', '³ók', '³ós',
+'³ót', '³ów', '³óz', '³ó¼', '³ó¿', '³óæ', '¶³o', '¶¿e',
+'¶æc', '¶æd', '¶æk', '¶æm', '¶æs', '¶æu', '¶æz', '¶æ¿',
+'¶ñc', '¶ñm', '¶ñz', '¶ñ¿', '¼¿e', '¼ña', '¼ñc', '¼ñe',
+'¼ñi', '¼ñm', '¼ño', '¼ñz', '¼ñ±', '¼ñ¿', '¼ñê', '¿±c',
+'¿±d', '¿±l', '¿±p', '¿±t', '¿±w', '¿±³', '¿±æ', '¿³a',
+'¿³e', '¿³o', '¿³y', '¿³ó', '¿¿e', '¿¿o', '¿êc', '¿êl',
+'¿êt', '¿ê³', '¿êæ', '¿ñc', '¿ñm', '¿ñz', '¿ñ¿', '¿óg',
+'¿ól', '¿ór', '¿ów', '¿ó³', 'æ¿e', 'ê³a', 'ê³o', 'ê³y',
+'ê¶c', 'ê¶l', 'ê¶m', 'ê¶n', 'ê¶z', 'ê¶¿', 'ê¶æ', 'ê¼b',
+'ê¼c', 'ê¼l', 'ê¼m', 'ê¼n', 'ê¼r', 'ê¼z', 'ê¼¿', 'ê¿a',
+'ê¿c', 'ê¿e', 'ê¿k', 'ê¿l', 'ê¿m', 'ê¿n', 'ê¿o', 'ê¿p',
+'ê¿s', 'ê¿u', 'ê¿y', 'ê¿z', 'ê¿±', 'ê¿¿', 'ê¿ê', 'ê¿ó',
+'êæc', 'êæd', 'êæk', 'êæm', 'êæs', 'êæz', 'êæ¿', 'ñ¿e',
+'ó³a', 'ó³b', 'ó³c', 'ó³d', 'ó³e', 'ó³f', 'ó³g', 'ó³h',
+'ó³i', 'ó³j', 'ó³k', 'ó³l', 'ó³m', 'ó³n', 'ó³o', 'ó³p',
+'ó³r', 'ó³s', 'ó³t', 'ó³u', 'ó³w', 'ó³y', 'ó³z', 'ó³±',
+'ó³³', 'ó³¶', 'ó³¿', 'ó³æ', 'ó³ê', 'ó³ó', 'ó¶b', 'ó¶c',
+'ó¶l', 'ó¶m', 'ó¶æ', 'ó¼b', 'ó¼c', 'ó¼d', 'ó¼m', 'ó¼n',
+'ó¼z', 'ó¼¿', 'ó¼ñ', 'ó¿a', 'ó¿b', 'ó¿c', 'ó¿d', 'ó¿e',
+'ó¿k', 'ó¿m', 'ó¿n', 'ó¿o', 'ó¿u', 'ó¿y', 'ó¿z', 'ó¿±',
+'ó¿¿', 'ó¿ê', 'ó¿ó', 'óæc', 'óæm', 'óæz', 'óæ¿'])
+
+def possible_plwords(word):
+	# polish diacritical characters (PDC) that may appear
+	# at begin and end of word
+	allowed_at_begin = 'æ³ñó¶¿¼'
+	allowed_at_end   = '±æê³ñ¶¿¼'
+
+	# latin characters used instead of PDC
+	platin = 'acelnosz'
+
+	# platin -> PDC
+	repl   = {'a':'a±',
+	          'c':'cæ',
+		  'e':'eê',
+		  'l':'l³',
+		  'n':'nñ',
+		  'o':'oó',
+		  's':'s¶',
+		  'z':'z¿¼'}
+
+	L  = list(word)
+
+	# make list of possible chars at end and begin of word
+	if L[0] in 'clnosz':	# without_PDC(allowed_at_begin)
+		L[0] = repl[L[0]]
+	if L[-1] in 'acelnsz':	# without_PDC(allowed_at_end)
+		L[-1] = repl[L[-1]]
+	
+	# make list of possible PDC insied of word
+	for i in xrange(1,len(word)-1):
+		if L[i] not in platin:
+			continue
+
+		a,X,c = word[i-1:i+2]
+		# create all possible triples with neigbours a and c
+		for b in repl[X]:
+			if a+b+c in pl_triples:
+				L[i] += b
+
+	# return list
+
+	tmp = []
+	for i in comb(L):
+		tmp.append( "".join(i) )
+	
+	return tmp
+
+
+class Speller:
+	"""
+	Speller wrapper. Provides cache for both check() and suggest() methods.
+	"""
+
+	def __init__(self, speller, dict_cache=None, sugg_cache=None):
+		self.speller = speller
+
+		self.__dict_cache	= dict_cache
+		self.__sugg_cache	= sugg_cache
+		self.dict = {}
+		self.sugg = {}
+
+		import cPickle
+		if self.__sugg_cache:
+			try:
+				self.sugg = cPickle.load( open(self.__sugg_cache, 'r') )
+			except (IOError, EOFError):
+				self.sugg = {}
+
+		if self.__dict_cache:
+			try:
+				self.dict = cPickle.load( open(self.__dict_cache, 'r') )
+			except (IOError, EOFError):
+				self.dict = {}
+			
+	def save_dict(self, file=None):
+		import cPickle
+		if file == None:
+			file = self.__dict_cache
+		if file != None:
+			cPickle.dump(self.dict, open(file, 'w'), cPickle.HIGHEST_PROTOCOL)
+	
+	def save_sugg(self, file=None):
+		import cPickle
+		if file == None:
+			file = self.__sugg_cache
+		if file != None:
+			cPickle.dump(self.sugg, open(file, 'w'), cPickle.HIGHEST_PROTOCOL)
+
+	def check(self, word):
+		lword = word.lower()
+		if not self.dict.has_key(lword):
+			self.dict[lword] = self.speller.check(lword)
+		
+		return self.dict[lword]
+	
+	def suggest(self, word):
+		lword = word.lower()
+		if not self.sugg.has_key(lword):
+			self.sugg[lword] = self.speller.suggest(lword)
+		
+		return self.sugg[lword]
+
+class PolishSpeller:
+	def __init__(self, speller, sugg_cache=None):
+		self.speller	= speller
+		self.sugg	= {}
+		self.repl	= {}
+		self.__sugg_cache = sugg_cache
+
+		if self.__sugg_cache:
+			import cPickle
+			try:
+				self.sugg = cPickle.load( open(self.__sugg_cache, 'r') )
+			except (IOError, EOFError):
+				self.sugg = {}
+	
+	def save_sugg(self, file=None):
+		import cPickle
+		if file == None:
+			file = self.__sugg_cache
+		if file != None:
+			cPickle.dump(self.sugg, open(file, 'w'), cPickle.HIGHEST_PROTOCOL)
+
+	def __suggest(self, word):
+		lword = word.lower()
+		word_list = possible_plwords(lword)
+		self.sugg[lword] = [word for word in word_list if self.speller.check(word)]
+
+	def add_replacement(self, word, replacement):
+		self.repl[word] = [replacement]
+	
+	def clear_replacement(self):
+		self.repl = {}
+
+	def suggest(self, word):
+		if self.repl.has_key(word):
+			return self.repl[word]
+
+		lword = word.lower()
+		if not self.sugg.has_key(lword):
+			self.__suggest(lword)
+
+		return self.sugg[lword]
+
+
+VERSION = "$Revision: 1.1.1.1 $"
+
+def fileok(filename):
+	"""Check if we can try to check file"""
+	if not os.path.exists(filename): # dosn't exist
+		Info("Plik '%s' nie istnieje." % filename)
+		return False
+	if not os.path.isfile(filename): # is not file
+		Info("'%s' nie jest plikiem." % filename)
+		return False
+	elif os.path.getsize(filename) == 0:
+		Info("Plik '%s' jest pusty." % filename)
+		return False
+	else:
+		return True
+
+def Question(prompt, options, default=None, propagate_break=True):
+	"""
+	prompt  - string
+	options - list of tuples:
+	           1. value
+	           2. string or list of strings assinged to value
+	              first string is displaying
+	default_value	- value returned on press Enter
+	propagate_break	- Ctrl-C is propagate to caller
+	"""
+
+	values = {}
+	opt = []
+	df  = None
+	for value, item in options:
+		if isinstance(item, types.StringType):
+			item = [item]
+
+		if not isinstance(item, (types.ListType, types.TupleType)):
+			raise TypeError("list or tuple is required")
+
+		if df == None and value == default:
+			if len(item[0]) == 1:
+				opt.append(item[0].upper())
+			else:
+				opt.append(item[0])
+		else:
+			if len(item[0]) == 1:
+				opt.append(item[0].lower())
+			else:
+				opt.append(item[0])
+
+		for string in item:
+			values[string.lower()] = value
+
+	prompt = "%s [%s] " % (prompt, "/".join(opt))
+	while True:
+		try:
+			try:
+				input = raw_input(prompt).lower()
+			except EOFError:
+				print
+				continue
+		
+			if input == '' and default != None:
+				return default
+
+			tmp = input.strip()
+			if values.has_key(tmp):
+				return values[tmp]
+
+		except KeyboardInterrupt:
+			if propagate_break:
+				raise KeyboardInterrupt
+			print
+
+def QuestionYesNo(prompt, default=None, propagate_break=True):
+	"""Common used"""
+	if default not in [None, True, False]:
+		default = None
+	return Question(prompt, [(True, ['t','y','tak','yes']), (False, ['n','nie','no'])], default, propagate_break)
+
+def QueryString(prompt, valid=None, propagate_break=True):
+	while True:
+		try:
+			input = raw_input(prompt)
+			if valid != None:
+				if valid(input): return input
+			else:
+				return input
+
+		except KeyboardInterrupt:
+			if propagate_break:
+				raise KeyboardInterrupt
+			print
+
+def tmpfilename(path, name, postfix=''):
+	"""
+	Returns a name for temporary file.
+	'name' and 'postfix' are optional strings glued with tmpname;
+	"""
+	from random import randint
+	from os.path import exists
+	from os import sep
+
+	while True:
+		rand = "%06x" % randint(0, 0xffffff)
+		name = path + sep + name + rand + postfix
+		if not exists(name):
+			return name
+
+REPLACE			= 1
+REPLACE_USER	= 2
+REPLACE_ALL		= 3
+NON_INTERACTIVE	= 4
+ABORT			= 5
+DO_NOTHING		= 6
+IGNORE			= 7
+IGNORE_ALL		= 8
+	
+def format_list(list, preferable_height, max_width, colsep=' '):
+	"""
+	Format list *tries* to break list of string into columns that
+	spans at the most 'preferable_height' lines and summary width
+	of text is not wider then 'max_width'; colsep specifies string
+	inserted beetwens columns.
+	
+	Text in columns is right-aligned.
+	
+	On success returns list of strings, None on fail.
+	"""
+	
+	def split_list(list, max_width, cols, colsep):
+		"""
+		Break list into 'cols' columns. The max_width limits width
+		of text. Returns None if break is impossible.
+		"""
+		if cols == 1: # don't break
+			return list
+
+		n = (len(list)+cols-1)/cols	# max number of items in single column
+
+		# can't fill all columns (there is a colmn's "overful" or "underful")
+		if (n*(cols-1) > len(list)) or (n*cols < len(list)):
+			return None
+		
+		columns = []
+		for i in xrange(cols):
+			start = i*n
+			columns.append(list[start:start+n])
+
+		# too wide
+		if len(columns[-1]) < n:
+			columns[-1] += ['']*(n-len(columns[-1]))
+
+		lengths	= [0]*cols
+		for i in xrange(cols):
+			lengths[i] = max([ len(item) for item in columns[i] ])
+
+		if sum(lengths) + (cols-1)*len(colsep) > max_width:
+			return None
+		else:
+			result = []
+			for i in xrange(n):
+				tmp = ["%*s" % (-lengths[index], item[i]) for index, item in enumerate(columns)]
+				result.append(colsep.join(tmp))
+			return result
+
+	if len(list) <= preferable_height:	# ok
+		return list
+
+	cols	= 2
+	prev	= None
+	while True:
+		curr = split_list(list, max_width, cols, colsep)
+		
+		if curr == None:
+			return prev
+		elif len(curr) <= preferable_height:
+			return curr
+		else:
+			cols = cols + 1
+			prev = curr
+#fed
+
+show_menu = True
+def QueryUser(suggestions, line_number, field_index):
+	global show_menu
+	substring, (start,length), _ = File[line_number][field_index]
+
+	def get_range():
+		if show_menu:
+			menu_height = 9+len(sugg_list)
+		else:
+			menu_height = 3+len(sugg_list)
+		context_lines = Terminal.height() - menu_height - 2
+		first_line = max(line_number - context_lines/2, 0)
+
+		return xrange(first_line, first_line+context_lines)
+
+	def calc_size():
+		if start + length > Terminal.width() - 10:
+			shift = start + length - Terminal.width()/2
+		else:
+			shift = 0
+		proc  = "%0.1f%%" % ((100.0 * line_number)/len(File))
+		word  = "%s (%d/%d)" % (substring, field_index+1, len(File[line_number]))
+		delim = "=== " + proc + " = " + word + " " + "="*(Terminal.width()-8-len(proc)-len(word))
+
+		return shift, delim
+
+	shift, delim = calc_size()
+
+	if len(suggestions):
+		sugg_list = ["%d) %s" % (index+1, item) for index, item in enumerate(suggestions)]
+		tmp = format_list(sugg_list, 7, Terminal.width())
+		if tmp:
+			sugg_list = tmp
+	else:
+		sugg_list = ['Nie uda³o siê znale¼æ podobnego s³owa w s³owniku']
+	
+	lines_range = get_range()
+
+	while 1:
+		try:
+			Terminal.clear()
+			for line in lines_range:
+				try:
+					print File.line(line)[shift:shift+Terminal.width()].replace('\t', ' ')
+					if line == line_number:
+						print " "*(start-shift) + "^"*length
+				except IndexError:
+					print
+					
+			print delim
+			print "Enter - bez zmian"
+			for item in sugg_list:
+				print item
+
+			if show_menu:
+				print
+				if len(suggestions):
+					print "R - zamieñ; A - zamieñ wszystkie; A <numer> - zamieñ wszystkie na s³owo z listy"
+				else:
+					print "R - zamieñ; A - zamieñ wszystkie"
+				print "I - ignoruj wszystkie"
+				print "X - nie pokazuj tego menu"
+				print "C - kontynnuj zamianê bez interakcji"
+				print "Q - przerwij"
+	
+			try:
+				input = raw_input("> ")
+			except EOFError:
+				continue
+
+			if input == '': # Enter
+				return (None, DO_NOTHING)
+
+			def toint(string):
+				try:
+					return int(string)
+				except ValueError:
+					return None
+
+			index = toint(input)
+			if index != None and index > 0 and index <= len(suggestions):
+				return (suggestions[index-1], REPLACE)
+
+			input = input.strip().upper()
+			if input == 'Q':
+				return (None, ABORT)
+			elif input == 'C':
+				return (None, NON_INTERACTIVE)
+			elif input == 'X':
+				show_menu = not show_menu
+				lines_range = get_range()
+				shift, delim = calc_size()
+			elif input == 'I':
+				return (None, IGNORE_ALL)
+			elif input[0] == 'A':
+				if len(input) > 1 and len(suggestions) > 0:
+					index = toint(input[1:])
+					if index != None and index > 0 and index <= len(suggestions):
+						return (suggestions[index-1], REPLACE_ALL)
+				else:
+					try:
+						answer = QueryString("Zamieñ wszystkie wyst±pienia '%s' na: " % substring).strip()
+						if answer != '':
+							if len(suggestions) > 0 and not speller.check(answer):
+								if QuestionYesNo("Podane s³owo nie znajduje siê w s³owniku. Czy pomimo to u¿yæ go", True, False):
+									return (answer, REPLACE_ALL)
+							else:
+								return (answer, REPLACE_ALL)
+					except KeyboardInterrupt:
+						pass
+				shift, delim = calc_size()
+			elif input == 'R':
+				try:
+					answer = QueryString("Zamieñ '%s' na: " % substring).strip()
+					if answer != '':
+						if len(suggestions) > 0 and not speller.check(answer):
+							if QuestionYesNo("Podane s³owo nie znajduje siê w s³owniku. Czy pomimo tego u¿yæ go?", True, False):
+								return (answer, REPLACE_USER)
+						else:
+							return (answer, REPLACE_USER)
+				except KeyboardInterrupt:
+					pass
+			
+		except KeyboardInterrupt:
+			print
+			return (None, NON_INTERACTIVE)
+
+def ProgressBar(current_val, min_val, max_val, mode=1):
+	try:
+		x = float(current_val)/(max_val-min_val)
+	except ZeroDivisionError:
+		x = 0.0
+
+	if mode == 0:
+		# [=======.......] 40.1%
+		p = "%6.1f%%" % (100*x)
+		n = Terminal.width() - len(p) - 3
+		d = int(n*x)
+		r = n - d
+		output = "[" + "="*d + "."*r + "]" + p
+	elif mode == 1:
+		# [======= 40.1 % .....]
+		p = " %0.1f%% " % (100*x)
+		n = Terminal.width() - 3
+		d = int(n*x)
+		r = n - d
+		tmp = "="*d + "."*r
+		pos = (n-len(p))/2
+		output = '[' + tmp[:pos] + p + tmp[pos+len(p):] + ']'
+		
+	sys.stdout.write(output + '\r')
+	sys.stdout.flush()
+
+class AbortProgram:
+	pass
+
+def CheckFile():
+	global replace_list, ignore_list
+	interactive		= options['interactive']
+
+	for line_number in xrange(len(File)):
+
+		if not interactive and not options['quiet']:
+			ProgressBar(line_number, 0, len(File))
+
+		File.edit(line_number)
+		
+		more_options = []
+
+		# automatic conversion of single replacement pairs
+		n = len(File[line_number])
+		w = '|/-\\'
+		for index, field in enumerate(File[line_number]):
+			substring, _, type = field
+		
+			if not options['quiet']:
+				sys.stdout.write('%c\r' % w[index % len(w)] )
+				sys.stdout.flush()
+
+			# do not check short words
+			if len(substring) < options['ignore_shorter_then']:
+				continue
+
+			if ignore_list.has_key(substring):
+				continue
+
+			if replace_list.has_key(substring):
+				File[line_number][index] = replace_list[substring]
+				continue
+
+			# if program works like regular speller
+			# check spelling of other words
+			if (options['spellchecker'] and type == '__other__') or (len(substring) > 10 and type == 'check'):
+				if not speller.check(substring):
+					more_options.append(index)
+				continue
+			
+			# do not check not marked words
+			if type != 'check':
+				continue
+			
+			lsubstring	= substring.lower()
+			props		= pl_speller.suggest(substring)
+
+			if len(props) == 0:
+				if options['spellchecker'] and not speller.check(substring):
+					more_options.append(index)
+				continue
+			elif len(props) == 1:
+				if props[0] != lsubstring:
+					File[line_number][index] = clone_case(substring, props[0])
+			else:
+				more_options.append(index)
+			
+		if (len(more_options) == 0) or not interactive:
+			File.save(line_number)
+			continue
+
+		# interaction with user -- he must choose something
+		for index in more_options:
+			substring, start, type = File[line_number][index]
+
+			sys.stdout.write('%c\r' % w[index % len(w)] )
+			sys.stdout.flush()
+			
+			if ignore_list.has_key(substring):
+				continue
+
+			if replace_list.has_key(substring):
+				File[line_number][index] = replace_list[substring]
+				continue
+
+			if type == 'check':
+				props = pl_speller.suggest(substring)
+				if len(props) == 1:
+					File[line_number][index] = clone_case(substring, props[0])
+					continue
+			if type == '__other__' or len(props) == 0:
+				props = speller.suggest(substring)
+
+			if len(props) == 0 and not options['ask_unknown']:
+				continue
+				
+			word, action = QueryUser(props, line_number, index)
+
+			if action == DO_NOTHING:
+				pass
+
+			# replace -- case must be preserved
+			elif action == REPLACE:
+				File[line_number][index] = clone_case(substring, word)
+
+			# replace with user input
+			elif action == REPLACE_USER:
+				File[line_number][index] = word
+
+			# add replacement pair and replace with user input
+			elif action == REPLACE_ALL:
+				File[line_number][index] = tmp = clone_case(substring, word)
+				replace_list[substring] = word
+
+			# ignore all: add pair word -> word
+			elif action == IGNORE_ALL:
+				ignore_list[substring] = True
+
+			# switch to non-interactive mode
+			elif action == NON_INTERACTIVE:
+				interactive = False
+				break
+
+			# abort program
+			elif action == ABORT:
+				raise AbortProgram
+			else:
+				raise NotImplementedError
+
+		File.save(line_number)
+		#eol
+
+	if not interactive:
+		print
+
+HELP = """%s [opcje] PLIKI
+
+-h, --help      pomoc
+
+-r, --readme    wy¶wietlenie README
+
+-v, --version   wersja programu
+
+-n              tryb nieinteraktywny
+
+-H,--html       przetwarzanie pliku HTML
+
+-q,--quiet      program nie wypisuje nic na ekranie
+                u¿ycie tej opcji implikuje tryb nieinteraktywny
+
+-a,--all        sprawdzane s± równie¿ s³owa zawieraj±ca polskie znaki
+
+-s,--spell      s³owa zawieraj±ce polskie znaki s± sprawdzane przez
+                aspella (wówczas program dzia³a podobnie do aspell check)
+				
+-d              pyta o pisowniê w przypadku, gdy nie uda³o siê
+                znale¼æ podobnych s³ów w s³owniku
+"""
+
+if __name__ == "__main__":
+	import os
+	import os.path
+	import sys
+	import re
+	import types
+
+	###
+	### Parse program arguments
+	###
+	prog = os.path.basename(sys.argv[0])
+	if len(sys.argv) == 1:
+		print HELP % prog
+		sys.exit(1)
+	
+	options = {}
+	options['use_cache']	= True	# disabled
+
+	try:
+		home = os.environ['HOME']
+		if home[-1] != os.sep:
+			home += os.sep
+	except KeyError:
+		home = '.' + os.sep
+	
+	options['cache_path']	= home + '.pliterki'
+	
+	# cache for speller.check() results
+	options['cache_dictionary'] = 'dict'
+
+	# cache for speller.suggest() results
+	options['cache_suggestions'] = 'sugg'
+	
+	# cache for polish_speller.suggest() results
+	options['cache_pl_suggestions'] = 'plsugg'
+
+	# ignore words shorter (relation < ) then given value
+	options['ignore_shorter_then'] = 2
+
+	# don't ask about spell of totally unknown words
+	options['ask_unknown']	= False
+
+	# options sets from command line
+	options['interactive']	= True
+	options['quiet']		= False
+	options['spellchecker']	= False 
+	options['checkall']		= False 
+	options['HTMLfilter']	= False 
+
+	skip = 1
+	for arg in sys.argv[1:]:
+		if arg in ['-h','--help']:
+			print HELP % prog
+			sys.exit(0)
+		if arg == '-w':
+			tmp = README % (HELP % 'pliterki')
+			print tmp.replace('&', '&amp').replace('<', '&lt').replace('>','&gt')
+			sys.exit(0)
+		if arg in ['-r','--readme']:
+			print README % (HELP % 'pliterki')
+			sys.exit(0)
+		elif arg in ['-v','--version']:
+			print VERSION
+			sys.exit(0)
+		elif arg in ['-s','--spell']:
+			options['spellchecker']	= True and not options['checkall']
+			skip = skip + 1
+		elif arg == '-n':
+			options['interactive']	= False
+			skip = skip + 1
+		elif arg in ['-a','--all']:
+			options['checkall']		= True
+			options['spellchecker']	= False
+			skip = skip + 1
+		elif arg in ['-q','--quiet']:
+			options['quiet'] = True
+			options['interactive']	= False
+			skip = skip + 1
+		elif arg in ['-H','--html']:
+			options['HTMLfilter']	= True
+			skip = skip + 1
+		elif arg in ['-d']:
+			options['ask_unknown'] = True
+			skip = skip + 1
+		else:
+			break
+
+	FileList = sys.argv[skip:]
+	
+	if not sys.stdout.isatty(): # be quiet if we don't write on tty
+		options['quiet']		= True
+		options['interactive']	= False
+	
+	###
+	### Define 'Die' function depending on quiet settings
+	###
+	if options['quiet']:
+		def Die(s):
+			sys.exit(1)
+		def Info(s, n):
+			pass
+	else:
+		def Die(string):
+			sys.stderr.write(string + os.linesep)
+			sys.exit(1)
+		def Info(string, new_line=True, flush=False):
+			if new_line:
+				print string
+			else:
+				print string,
+			if flush:
+				sys.stdout.flush()
+
+	###
+	### Check settings
+	###
+	if not os.path.exists(options['cache_path']):
+		try:
+			Info("Tworzê katalog '%s'..." % options['cache_path'], False)
+			os.makedirs(options['cache_path'])
+			Info("ok")
+		except OSError:
+			e = sys.exc_info()
+			Die('%s: %s' % (str(e[0]), str(e[1])))
+	elif not os.path.isdir(options['cache_path']):
+		Die("'%s' nie jest katalogiem." % options['cache_path'])
+	
+	if len(FileList) == 0:
+		Die("Podaj nazwê pliku.")
+	
+	###
+	### Try to import aspell-python module
+	###
+	try:
+		import aspell
+	except:
+		e = sys.exc_info()
+		Die('%s: %s' % (str(e[0]), str(e[1])))
+	
+	try:
+		import locale
+		locale.setlocale(locale.LC_ALL, 'pl_PL')
+	except:
+		Die('Nie mogê zmieniæ ustawiñ na jêzk polski.')
+	
+	###
+	### Create speller wrapper and polish-specific speller
+	###
+	try:
+		def getsize(path):
+			"Returns a formatted file size"
+			try:
+				size = os.path.getsize(path)
+				if size > 1024*1024:
+					return "%0.1fMiB" % (float(size)/(1024*1024))
+				elif size > 1024:
+					return "%0.1fKiB" % (float(size)/1024)
+				else:
+					return "%dB" % size
+			except os.error:
+				return ''
+
+		if options['use_cache']:
+			info  = []
+			path1 = options['cache_path'] + os.sep + options['cache_dictionary']
+			if not os.path.isfile(path1):
+				path1 = None
+			else:
+				info.append('s³ownika (%s)' % getsize(path1))
+
+			path2 = options['cache_path'] + os.sep + options['cache_suggestions']
+			if not os.path.isfile(path2):
+				path2 = None
+			else:
+				info.append('podpowiedzi (%s)' % getsize(path2))
+			
+			path3 = options['cache_path'] + os.sep + options['cache_pl_suggestions']
+			if not os.path.isfile(path3):
+				path3 = None
+			else:
+				info.append('polskich podpowiedzi (%s)' % getsize(path3))
+		
+			if not options['quiet'] and info:
+				Info("Odtwarzam dane: " + ", ".join(info))
+		else:
+			path1 = path2 = path3 = None
+			
+		speller		= Speller( aspell.Speller('lang', 'pl'), path1, path2)
+		pl_speller	= PolishSpeller(speller, path3)
+		replace_list	= {}
+		ignore_list		= {}
+	except KeyboardInterrupt:
+		Die("Przerwany")
+	
+	###
+	### Load file(s)
+	###
+
+	# matches whitespaces (using on first stage of line split)
+	whitespaces	= re.compile(r'\s+')
+	# matches punctuators (using on second stage of line split)
+	punctuators	= re.compile(r'[,.?!:;\'"<>(){}\[\]$%^&@~|\\/*+-]+')
+	if options['checkall']:
+		# mark all words contains letters
+		probably_pl	= re.compile(r'^[±æê³ñó¶¿æ¡ÆÊ£ÑÓ¦¯ÆA-Za-z]+$')
+	else:
+		# mak wods contains letter but without polish letters (default) 
+		probably_pl	= re.compile(r'^[A-Za-z]+$')
+
+	default_answer = None
+	for file_num, filename in enumerate(FileList):
+		if file_num > 0 and default_answer == None:
+			tmp = [ ('clear',	['Tak','t']),\
+			        ('leave',	['Nie','n']),\
+					('always',	['Zawsze','z']),\
+					('never',	['niGdy','g']) ]
+			print file_num
+			ans = Question("Skasowaæ s³owa zamieniane lub ignorowane?", tmp, 'always', False)
+			if ans == 'clear':
+				clear = True
+			elif ans == 'leave':
+				clear = True
+			elif ans == 'always':
+				clear = True
+				default_answer = True
+			elif ans == 'never':
+				clear = False
+				default_answer = False
+		else:
+			clear = None
+
+		if clear or default_answer:
+			replace_list	= {}
+			ignore_list		= {}
+
+		try:
+			Info("Wczytywanie pliku '%s' (%d/%d)..." % (filename, file_num+1, len(FileList)), False)
+			if not fileok(filename):
+				continue
+
+			if options['HTMLfilter']:
+				File = SpellerEditor(open(filename, 'r'), whitespaces, 'W', punctuators, 'P', probably_pl, 'check', HTMLFilter())
+			else:
+				File = SpellerEditor(open(filename, 'r'), whitespaces, 'W', punctuators, 'P', probably_pl, 'check')
+		
+			Info("ok, wczytano %d linii (%s)" % (len(File), getsize(filename)))
+
+		except KeyboardInterrupt:
+			if QuestionYesNo('Przerwaæ przetwarzanie plików', False, False):
+				Die("Przerwany")
+		except IOError:
+			e = sys.exc_info()
+			Info('%s: %s' % (str(e[0]), str(e[1])))
+
+		try:
+			Terminal.settitle("Sprawdzanie pliku '%s'" % filename)
+			CheckFile()
+		except (AbortProgram, KeyboardInterrupt):
+			if QuestionYesNo('Zakoñczyæ program bez zapisywania pamiêci podrêcznej', False, False):
+				Die("Przerwane")
+		else:
+			Info("Zapisywanie pliku '%s'..." % filename, False)
+			tmpname = tmpfilename('.', filename+'-')
+			try:
+				file = open(tmpname, 'w')
+				for line in File.iterlines():
+					file.write(line + os.linesep)
+				file.close()
+			except OSError:
+				e = sys.exc_info()
+				Die('%s: %s' % (str(e[0]), str(e[1])))
+
+			try:
+				if os.path.exists(filename+'~'):
+					os.unlink(filename+'~')
+				os.rename(filename, filename+'~')
+			except KeyboardInterrupt:
+				e = sys.exc_info()
+				Info('%s: %s' % (str(e[0]), str(e[1])))
+				Info("Zmieniony tekst zosta³ zachowany w pliku '%s'." % tmpname)
+				continue
+			
+			try:
+				os.rename(tmpname, filename)
+			except OSError:
+				os.rename(filename+'~', filename)
+				e = sys.exc_info()
+				Info('%s: %s' % (str(e[0]), str(e[1])))
+				Info("Zmieniony tekst zosta³ zachowany w pliku '%s'." % tmpname)
+
+			Info("ok", flush=True)
+	
+	path = options['cache_path'] + os.sep + options['cache_dictionary']
+	Info("Zapisywanie s³ownika do '%s'..." % path, False)
+	try:
+		tmpname = tmpfilename('.', 'tmp-')
+		speller.save_dict(tmpname)
+	except:
+		e = sys.exc_info()
+		Info('%s: %s' % (str(e[0]), str(e[1])))
+	else:
+		os.rename(tmpname, path)
+		Info("ok", flush=True)
+	
+	path = options['cache_path'] + os.sep + options['cache_suggestions']
+	Info("Zapisywanie podpowiedzi do '%s'..." % path, False)
+	try:
+		tmpname = tmpfilename('.', 'tmp-')
+		speller.save_sugg(tmpname)
+	except:
+		e = sys.exc_info()
+		Info('%s: %s' % (str(e[0]), str(e[1])))
+	else:
+		os.rename(tmpname, path)
+		Info("ok", flush=True)
+		
+	path = options['cache_path'] + os.sep + options['cache_pl_suggestions']
+	Info("Zapisywanie polskich podpowiedzi do '%s'..." % path, False)
+	try:
+		tmpname = tmpfilename('.', 'tmp-')
+		pl_speller.save_sugg(tmpname)
+	except:
+		e = sys.exc_info()
+		Info('%s: %s' % (str(e[0]), str(e[1])))
+	else:
+		os.rename(tmpname, path)
+		Info("ok", flush=True)
+
+# vim: ts=4 shiftwidth=4 nowrap
