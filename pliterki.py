@@ -5,132 +5,147 @@
 #
 # Released under GNU GPL license
 #
-# $Id: pliterki.py,v 1.1.1.1 2006-04-03 18:20:33 wojtek Exp $
+# $Id: pliterki.py,v 1.2 2006-09-27 18:55:34 wojtek Exp $
 
 README = r"""
-                              pliterki
-                              ========
+pliterki
+========
 
-INTRODUCTION
-============
+.. contents::
 
-Pliterki is a specialized spellchecker for polish language. It's main purpose
+Introduction
+------------------------------------------------------------------------
+
+*Pliterki* is a specialized spellchecker for polish language. It's main purpose
 is fixing polish text by adding missing diacritical characters. If you don't
 speak polish and do not work with polish text, you won't find this program
 useful.
 
 The rest of README is written in polish.
 
-WPROWADZENIE
-============
+Wprowadzenie
+------------------------------------------------------------------------
 
-'Pliterki' zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
-diakrytycznych, czyli popularnych "ogonków". Ich rêczne dostawianie jest
+*Pliterki* zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
+diakrytycznych, czyli popularnych ,,ogonków''. Ich rêczne dostawianie jest
 uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Si³ê programu najlepiej
 widaæ przy poprawianiu tekstów ca³kowicie wyzbytych polskich znaków
 diakrytycznych.
 
-W dalszej czê¶ci README bêdzie u¿ywane okre¶lenie "polskie litery", które
-co prawda nie jest poprawne, ale za to bardziej zwiêz³e od "polskich znaków
-diakrytycznych".
+W dalszej czê¶ci README bêdzie u¿ywane okre¶lenie ,,polskie litery'', które
+co prawda nie jest poprawne, ale za to bardziej zwiêz³e od ,,polskich znaków
+diakrytycznych''.
 
-WYMAGANIA
-=========
+Wymagania
+------------------------------------------------------------------------
 
-1. aspell <http://aspell.net>
-
+1. aspell (http://aspell.net)
 2. Python w wersji 2.3 lub nowszej
+3. polski s³ownik do aspella; polecam http://www.kurnik.pl/slownik,
+   a je¶li u¿ywasz Debiana, zainstaluj pakiet ``aspell-pl``
+4. rozszerzenie do Pythona o nazwie aspell-python
+   http://www.republika.pl/wmula/proj
+5. trochê miejsca w ``$HOME``
 
-3. polski s³ownik do aspella; polecam <http://www.kurnik.pl/slownik>;
-   je¶li u¿ywasz Debiana: apt-get install aspell-pl
+Opcje programu
+------------------------------------------------------------------------
 
-4. rozszerzenie do Python o nazwie aspell-python
-   <http://www.republika.pl/wmula/proj>
+Sposób u¿ycia::
 
-5. trochê miejsca w $HOME
+	pliterki [opcje] PLIKI
 
-OPCJE PROGRAMU
-==============
 
-%s
+Opcje:
+
+-h, --help     - pomoc
+-r, --readme   - wy¶wietlenie README
+-v, --version  - wersja programu
+-n             - tryb nieinteraktywny
+-H, --html     - przetwarzanie pliku HTML
+-q, --quiet    - program nie wypisuje nic na ekranie u¿ycie tej opcji implikuje tryb nieinteraktywny
+-a, --all       - sprawdzane s± równie¿ s³owa zawieraj±ca polskie znaki
+-s, --spell     - s³owa zawieraj±ce polskie znaki s± sprawdzane przez aspella (wówczas program dzia³a podobnie do aspell check)
+-d             - pyta o pisowniê w przypadku, gdy nie uda³o siê znale¼æ podobnych s³ów w s³owniku
+
 
 Pliki s± nadpisywane, do nazwa kopii orygina³u doklejana jest tylda.
 
-PODSTAWY
-========
+Podstawy
+------------------------------------------------------------------------
 
-Program maj±c dane "polskawe" s³owo tworzy listê mo¿liwych s³ów
+Program maj±c dane ,,polskawe'' s³owo tworzy listê mo¿liwych s³ów
 zawieraj±cych polskie litery, nastêpnie weryfikuje swoje domys³y sprawdzaj±c
 wszystko w s³owniku i ostatecznie:
+
 * Je¶li z listy zostanie tylko jedno s³owo, wówczas dokonywana jest
   automatyczna podmiana (np. 'ktory' -> 'który').
 * Je¶li lista zawiera wiêcej ni¿ jedn± opcjê, wówczas u¿ytkownik proszony
   jest o wybór (np. 'ktora' -> 'która' ale równie¿ 'któr±'). Wiêcej w sekcji
-  TRYB INTERAKTYWNY.
+  `Tryb interaktywny`_.
 
 Domy¶lnie przetwarzane s± wy³±cznie te s³owa, które nie zawieraj± ¿adnej
 polskiej litery, a wiêc sk³adaj± siê jedynie ze znaków z podstawowego
 alfabetu a..z, A..Z.
 
-Mo¿na to zmieniæ podaj±c opcjê -a, wówczas tak¿e s³owa zawieraj±ce polskie
+Mo¿na to zmieniæ podaj±c opcjê ``-a``, wówczas tak¿e s³owa zawieraj±ce polskie
 litery s± spolszczane. U¿yteczne, gdy piszemy w miarê poprawnie, ale zdarza
-nam siê "gubiæ" polskie literki.
+nam siê ,,gubiæ'' polskie literki.
 
-PAMIÊÆ PODRÊCZNA
-================
+Pamiêæ podrêczna
+------------------------------------------------------------------------
 
 Bardzo istotn± cech± pliterek jest u¿ywanie pamiêci podrêcznej, dziêki czemu
-nie ma potrzeby odpytywaæ za ka¿dym razem aspella -- w efekcie uzyskuje siê
+nie ma potrzeby odpytywaæ za ka¿dym razem aspella --- w efekcie uzyskuje siê
 znaczne przyspieszenie, szczególnie je¶li poprawiane jest kilka tekstów pod
 rz±d, albo tekst jest d³ugi i wracamy do jego korekty kilka razy.
 
-Pamiêæ podrêczna jest zachowywana na dysku, w katalogu $HOME/.pliterki/.
+Pamiêæ podrêczna jest zachowywana na dysku, w katalogu ``$HOME/.pliterki/``.
 
 Mo¿na skasowaæ pliki z tego katalogu je¶li zajmuj± za du¿o miejsca albo
 uruchamianie programu trwa za d³ugo (szybko¶æ wczytywania tych plików
 jest ¶ci¶le uzale¿niona od Pythona).
 
-TRYB NIEINTERAKTYWNY
-====================
+Tryb nieinteraktywny
+------------------------------------------------------------------------
 
-W tym trybie wykonywane s± wy³±cznie automatyczne zamiany.
+W tym trybie wykonywane s± **wy³±cznie** automatyczne zamiany.
 
-TRYB INTERAKTYWNY
-=================
+_`Tryb interaktywny`
+------------------------------------------------------------------------
 
 W tym trybie równie¿ wykonywane s± automatyczne zamiany, ale je¶li dla
 danego s³owa istnieje wiêcej ni¿ jedno s³owo, to u¿ytkownik jest proszony
 o wybranie jednego.
 
-Je¶li zostanie podana opcja -d, to w przypadku gdy nie uda siê znale¼æ
+Je¶li zostanie podana opcja ``-d``, to w przypadku gdy nie uda siê znale¼æ
 ¿adnego s³owa, u¿ytkownik jest proszony o wpisanie jakiego¶, nie
 wystêpuj±cego w s³owniku.
 
-Poni¿ej "zrzut ekranu" z trybu interaktywnego:
+Poni¿ej ,,zrzut ekranu'' z trybu interaktywnego::
 
-################################################################################
-'Pliterki' zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
-diakrytycznych, czyli popularnych "ogonków". Ich rêczne dostawianie jest
-uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Sile programu najlepiej
-                                                 ^^^^
-widac przy poprawianiu tekstow calkowicie wyzbytych polskich znakow
-diakrytycznych.
-
-W dalszej czesci README bedzie uzywane okreslenie "polskie litery", ktore
-co prawda nie jest poprawne, ale za to bardziej zwiezle od "polskich znakow
-=== 12.5%% ======================================================================
-Enter - bez zmian
-1) si³ê
-2) sile
-3) silê
-
-R - zamieñ; A - zamieñ wszystkie; A <numer> - zamieñ wszystkie na s³owo z listy
-I - ignoruj wszystkie
-X - nie pokazuj tego menu
-C - kontynnuj zamianê bez interakcji
-Q - przerwij
->
-################################################################################
+ ################################################################################
+ 'Pliterki' zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
+ diakrytycznych, czyli popularnych "ogonków". Ich rêczne dostawianie jest
+ uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Sile programu najlepiej
+ 						 ^^^^
+ widac przy poprawianiu tekstow calkowicie wyzbytych polskich znakow
+ diakrytycznych.
+ 
+ W dalszej czesci README bedzie uzywane okreslenie "polskie litery", ktore
+ co prawda nie jest poprawne, ale za to bardziej zwiezle od "polskich znakow
+ === 12.5%% ======================================================================
+ Enter - bez zmian
+ 1) si³ê
+ 2) sile
+ 3) silê
+ 
+ R - zamieñ; A - zamieñ wszystkie; A <numer> - zamieñ wszystkie na s³owo z listy
+ I - ignoruj wszystkie
+ X - nie pokazuj tego menu
+ C - kontynnuj zamianê bez interakcji
+ Q - przerwij
+ >
+ ################################################################################
 
 Na górze ekranu wy¶wietlany jest fragment pliku, aktualnie przetwarzane
 s³owo jest podkre¶lone. Poni¿ej wy¶wietlana jest ponumerowana lista
@@ -138,49 +153,64 @@ dostêpnych s³ów.
 
 Naci¶niêcie Entera powoduje pozostawienie s³owa bez zmian.
 
-Wydanie polecenie R lub A (rozmiar liter nie ma znaczenie) wymaga wpisania
-s³owa; je¶li nie bêdzie ono nale¿a³o do s³ownika zostaniemy ostrze¿eni. Po
-zatwierdzeniu, R spowoduje zamianê pod¶wietlanego s³owa, natomiast A zamianê
-tego i wszystkich nastêpnych.
+Wydanie polecenie **R** lub **A** (rozmiar liter nie ma znaczenia)
+wymaga wpisania s³owa; je¶li nie bêdzie ono nale¿a³o do s³ownika
+zostaniemy ostrze¿eni. Po zatwierdzeniu, **R** spowoduje zamianê
+pod¶wietlanego s³owa, natomiast **A** zamianê tego i wszystkich
+nastêpnych.
 
-Polecenia I spowoduje, ¿e zaznaczone s³owo zostanie uznane za poprawne
-i wiêcej nie bêdziemy nêkani pytaniami o jego pisowniê.
+Polecenia **I** spowoduje, ¿e zaznaczone s³owo zostanie uznane za
+poprawne i wiêcej nie bêdziemy nêkani pytaniami o jego pisowniê.
 
-Polecenie A <numer> (spacja nie jest wymagana) jest szczególnie po¿yteczne
-je¶li widzimy, ¿e na li¶cie znajduj± siê s³owa, które na pewno w
-przetwarzanym tek¶cie nie wyst±pi± (np. dla "lub" lista propozycji to:
-"³ub" i "lub" -- to pierwsze nie jest zbyt powszechne).
+Polecenie **A <numer>** (spacja nie jest wymagana) jest szczególnie
+po¿yteczne je¶li widzimy, ¿e na li¶cie znajduj± siê s³owa, które na
+pewno w przetwarzanym tek¶cie nie wyst±pi±.  Np. dla ,,lub'' lista
+propozycji to: ,,³ub'' i ,,lub'' --- to pierwsze nie jest zbyt
+powszechne.
 
-UWAGA! S³owa dodane poleceniami R i A, oraz te które zosta³y zignorowane
-~~~~~~ poleceniem I nie s± nigdzie zapisywane. Co wiêcej, je¶li sprawdzamy
-	   wiele plików, to jeste¶my pytani czy skasowaæ te s³owa przed
-	   przyst±pieniem do sprawdzania nastêpnego pliku. Mo¿na wówczas skasowaæ,
-	   pozostawiæ s³owa i równie¿ ustawiæ, by program automatycznie kasowa³
-	   lub nigdy nie kasowa³ obu zbiorów s³ów.
+**UWAGA!** S³owa dodane poleceniami **R** i **A**, oraz te które zosta³y
+zignorowane poleceniem **I** nie s± nigdzie zapisywane. Co wiêcej, je¶li
+sprawdzamy wiele plików, to jeste¶my pytani czy skasowaæ te s³owa przed
+przyst±pieniem do sprawdzania nastêpnego pliku. Mo¿na wówczas skasowaæ,
+pozostawiæ s³owa i równie¿ ustawiæ, by program automatycznie kasowa³ lub
+nigdy nie kasowa³ obu zbiorów s³ów.
 
-Polecenie X ukrywa menu -- jest wy¶wietlana tylko lista s³ów.
+Polecenie **X** ukrywa menu --- jest wy¶wietlana tylko lista s³ów.
 
-Polecenie C przerywa pracê interaktywn± i powoduje przej¶cie
+Polecenie **C** przerywa pracê interaktywn± i powoduje przej¶cie
 w tryb nieinteraktywny.
 
-Polecenie Q przerywa pracê programu.
+Polecenie **Q** przerywa pracê programu.
 
-LICENCJA
-========
+Licencja
+------------------------------------------------------------------------
 
 Program jest rozpowszechniany na licencji GNU GPL (Powszechnej Publicznej
 Licencji GNU).
 
-AUTOR
-=====
 
-Wojciech Mu³a, wojciech_mula#poczta!onet!pl
+Historia zmian
+------------------------------------------------------------------------
 
-# = @
-! = .
+20.01.2005
+	* rozszerzenie mo¿liwo¶ci funkcji generuj±cej prawdopodobne polskie s³owa
 
-=============================================================================
-$Id: pliterki.py,v 1.1.1.1 2006-04-03 18:20:33 wojtek Exp $
+17.01.2005
+	* znaczne przyspieszenie i ulepszenie funkcji generuj±cej
+	  prawdopodobne polskie s³owa
+	* sprawdzania plików HTML-owych (opcja ``-H`` lub ``--html``);
+	  sprawdzany i modyfikowany jest wy³±cznie tekst miêdzy tagami
+	  oraz tre¶æ atrybutów *title* i *alt*
+	* mo¿liwo¶æ wpisania s³owa, gdy program nic nie wymy¶li
+	  (opcja ``-d``)
+
+
+Autor
+------------------------------------------------------------------------
+
+Wojciech Mu³a, wojciech_mula#poczta!onet!pl ('#' = '@', '!' = '.')
+
+$Id: pliterki.py,v 1.2 2006-09-27 18:55:34 wojtek Exp $
 """
 
 import sys, struct
@@ -1151,7 +1181,7 @@ class PolishSpeller:
 		return self.sugg[lword]
 
 
-VERSION = "$Revision: 1.1.1.1 $"
+VERSION = "$Revision: 1.2 $"
 
 def fileok(filename):
 	"""Check if we can try to check file"""
