@@ -31,11 +31,12 @@ Wymagania
 
 1. aspell (http://aspell.net)
 2. Python w wersji 2.3 lub nowszej
-3. polski s³ownik do aspella; polecam http://www.kurnik.pl/slownik,
+3. polski s³ownik do aspella; polecam http://www.sjp.pl,
    a je¶li u¿ywasz Debiana, zainstaluj pakiet ``aspell-pl``
-4. rozszerzenie do Pythona o nazwie aspell-python
-   http://www.republika.pl/wmula/proj
+4. rozszerzenie do Pythona o nazwie `aspell-python`__
 5. trochê miejsca w ``$HOME``
+
+__ ../aspell-python
 
 Opcje programu
 ------------------------------------------------------------------------
