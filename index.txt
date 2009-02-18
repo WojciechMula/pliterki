@@ -36,7 +36,7 @@ Wymagania
 4. rozszerzenie do Pythona o nazwie `aspell-python`__
 5. trochê miejsca w ``$HOME``
 
-__ ../aspell-python
+__ ../aspell-python/
 
 Opcje programu
 ------------------------------------------------------------------------
