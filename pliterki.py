@@ -44,7 +44,7 @@ Wymagania
 3. polski s³ownik do aspella; polecam http://www.kurnik.pl/slownik,
    a je¶li u¿ywasz Debiana, zainstaluj pakiet ``aspell-pl``
 4. rozszerzenie do Pythona o nazwie aspell-python
-   http://www.republika.pl/wmula/proj
+   http://0x80.pl/proj/aspell-python
 5. trochê miejsca w ``$HOME``
 
 Opcje programu
