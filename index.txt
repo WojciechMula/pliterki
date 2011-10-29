@@ -16,14 +16,14 @@ The rest of README is written in polish.
 Wprowadzenie
 ------------------------------------------------------------------------
 
-*Pliterki* zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
-diakrytycznych, czyli popularnych ,,ogonków''. Ich rêczne dostawianie jest
-uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Si³ê programu najlepiej
-widaæ przy poprawianiu tekstów ca³kowicie wyzbytych polskich znaków
+*Pliterki* zostaÅ‚y pomyÅ›lane gÅ‚Ã³wnie do uzupeÅ‚nienia brakujÄ…cych znakÃ³w
+diakrytycznych, czyli popularnych ,,ogonkÃ³w''. Ich rÄ™czne dostawianie jest
+uciÄ…Å¼liwe, a ponadto bardzo Å‚atwo coÅ› przeoczyÄ‡. SiÅ‚Ä™ programu najlepiej
+widaÄ‡ przy poprawianiu tekstÃ³w caÅ‚kowicie wyzbytych polskich znakÃ³w
 diakrytycznych.
 
-W dalszej czê¶ci README bêdzie u¿ywane okre¶lenie ,,polskie litery'', które
-co prawda nie jest poprawne, ale za to bardziej zwiêz³e od ,,polskich znaków
+W dalszej czÄ™Å›ci README bÄ™dzie uÅ¼ywane okreÅ›lenie ,,polskie litery'', ktÃ³re
+co prawda nie jest poprawne, ale za to bardziej zwiÄ™zÅ‚e od ,,polskich znakÃ³w
 diakrytycznych''.
 
 Wymagania
@@ -31,17 +31,17 @@ Wymagania
 
 1. aspell (http://aspell.net)
 2. Python w wersji 2.3 lub nowszej
-3. polski s³ownik do aspella; polecam http://www.sjp.pl,
-   a je¶li u¿ywasz Debiana, zainstaluj pakiet ``aspell-pl``
+3. polski sÅ‚ownik do aspella; polecam http://www.sjp.pl,
+   a jeÅ›li uÅ¼ywasz Debiana, zainstaluj pakiet ``aspell-pl``
 4. rozszerzenie do Pythona o nazwie `aspell-python`__
-5. trochê miejsca w ``$HOME``
+5. trochÄ™ miejsca w ``$HOME``
 
 __ ../aspell-python/
 
 Opcje programu
 ------------------------------------------------------------------------
 
-Sposób u¿ycia::
+SposÃ³b uÅ¼ycia::
 
 	pliterki [opcje] PLIKI
 
@@ -49,75 +49,75 @@ Sposób u¿ycia::
 Opcje:
 
 -h, --help     - pomoc
--r, --readme   - wy¶wietlenie README
+-r, --readme   - wyÅ›wietlenie README
 -v, --version  - wersja programu
 -n             - tryb nieinteraktywny
 -H, --html     - przetwarzanie pliku HTML
--q, --quiet    - program nie wypisuje nic na ekranie u¿ycie tej opcji implikuje tryb nieinteraktywny
--a, --all       - sprawdzane s± równie¿ s³owa zawieraj±ca polskie znaki
--s, --spell     - s³owa zawieraj±ce polskie znaki s± sprawdzane przez aspella (wówczas program dzia³a podobnie do aspell check)
--d             - pyta o pisowniê w przypadku, gdy nie uda³o siê znale¼æ podobnych s³ów w s³owniku
+-q, --quiet    - program nie wypisuje nic na ekranie uÅ¼ycie tej opcji implikuje tryb nieinteraktywny
+-a, --all       - sprawdzane sÄ… rÃ³wnieÅ¼ sÅ‚owa zawierajÄ…ca polskie znaki
+-s, --spell     - sÅ‚owa zawierajÄ…ce polskie znaki sÄ… sprawdzane przez aspella (wÃ³wczas program dziaÅ‚a podobnie do aspell check)
+-d             - pyta o pisowniÄ™ w przypadku, gdy nie udaÅ‚o siÄ™ znaleÅºÄ‡ podobnych sÅ‚Ã³w w sÅ‚owniku
 
 
-Pliki s± nadpisywane, do nazwa kopii orygina³u doklejana jest tylda.
+Pliki sÄ… nadpisywane, do nazwa kopii oryginaÅ‚u doklejana jest tylda.
 
 Podstawy
 ------------------------------------------------------------------------
 
-Program maj±c dane ,,polskawe'' s³owo tworzy listê mo¿liwych s³ów
-zawieraj±cych polskie litery, nastêpnie weryfikuje swoje domys³y sprawdzaj±c
-wszystko w s³owniku i ostatecznie:
+Program majÄ…c dane ,,polskawe'' sÅ‚owo tworzy listÄ™ moÅ¼liwych sÅ‚Ã³w
+zawierajÄ…cych polskie litery, nastÄ™pnie weryfikuje swoje domysÅ‚y sprawdzajÄ…c
+wszystko w sÅ‚owniku i ostatecznie:
 
-* Je¶li z listy zostanie tylko jedno s³owo, wówczas dokonywana jest
-  automatyczna podmiana (np. 'ktory' -> 'który').
-* Je¶li lista zawiera wiêcej ni¿ jedn± opcjê, wówczas u¿ytkownik proszony
-  jest o wybór (np. 'ktora' -> 'która' ale równie¿ 'któr±'). Wiêcej w sekcji
+* JeÅ›li z listy zostanie tylko jedno sÅ‚owo, wÃ³wczas dokonywana jest
+  automatyczna podmiana (np. 'ktory' -> 'ktÃ³ry').
+* JeÅ›li lista zawiera wiÄ™cej niÅ¼ jednÄ… opcjÄ™, wÃ³wczas uÅ¼ytkownik proszony
+  jest o wybÃ³r (np. 'ktora' -> 'ktÃ³ra' ale rÃ³wnieÅ¼ 'ktÃ³rÄ…'). WiÄ™cej w sekcji
   `Tryb interaktywny`_.
 
-Domy¶lnie przetwarzane s± wy³±cznie te s³owa, które nie zawieraj± ¿adnej
-polskiej litery, a wiêc sk³adaj± siê jedynie ze znaków z podstawowego
+DomyÅ›lnie przetwarzane sÄ… wyÅ‚Ä…cznie te sÅ‚owa, ktÃ³re nie zawierajÄ… Å¼adnej
+polskiej litery, a wiÄ™c skÅ‚adajÄ… siÄ™ jedynie ze znakÃ³w z podstawowego
 alfabetu a..z, A..Z.
 
-Mo¿na to zmieniæ podaj±c opcjê ``-a``, wówczas tak¿e s³owa zawieraj±ce polskie
-litery s± spolszczane. U¿yteczne, gdy piszemy w miarê poprawnie, ale zdarza
-nam siê ,,gubiæ'' polskie literki.
+MoÅ¼na to zmieniÄ‡ podajÄ…c opcjÄ™ ``-a``, wÃ³wczas takÅ¼e sÅ‚owa zawierajÄ…ce polskie
+litery sÄ… spolszczane. UÅ¼yteczne, gdy piszemy w miarÄ™ poprawnie, ale zdarza
+nam siÄ™ ,,gubiÄ‡'' polskie literki.
 
-Pamiêæ podrêczna
+PamiÄ™Ä‡ podrÄ™czna
 ------------------------------------------------------------------------
 
-Bardzo istotn± cech± pliterek jest u¿ywanie pamiêci podrêcznej, dziêki czemu
-nie ma potrzeby odpytywaæ za ka¿dym razem aspella --- w efekcie uzyskuje siê
-znaczne przyspieszenie, szczególnie je¶li poprawiane jest kilka tekstów pod
-rz±d, albo tekst jest d³ugi i wracamy do jego korekty kilka razy.
+Bardzo istotnÄ… cechÄ… pliterek jest uÅ¼ywanie pamiÄ™ci podrÄ™cznej, dziÄ™ki czemu
+nie ma potrzeby odpytywaÄ‡ za kaÅ¼dym razem aspella --- w efekcie uzyskuje siÄ™
+znaczne przyspieszenie, szczegÃ³lnie jeÅ›li poprawiane jest kilka tekstÃ³w pod
+rzÄ…d, albo tekst jest dÅ‚ugi i wracamy do jego korekty kilka razy.
 
-Pamiêæ podrêczna jest zachowywana na dysku, w katalogu ``$HOME/.pliterki/``.
+PamiÄ™Ä‡ podrÄ™czna jest zachowywana na dysku, w katalogu ``$HOME/.pliterki/``.
 
-Mo¿na skasowaæ pliki z tego katalogu je¶li zajmuj± za du¿o miejsca albo
-uruchamianie programu trwa za d³ugo (szybko¶æ wczytywania tych plików
-jest ¶ci¶le uzale¿niona od Pythona).
+MoÅ¼na skasowaÄ‡ pliki z tego katalogu jeÅ›li zajmujÄ… za duÅ¼o miejsca albo
+uruchamianie programu trwa za dÅ‚ugo (szybkoÅ›Ä‡ wczytywania tych plikÃ³w
+jest Å›ciÅ›le uzaleÅ¼niona od Pythona).
 
 Tryb nieinteraktywny
 ------------------------------------------------------------------------
 
-W tym trybie wykonywane s± **wy³±cznie** automatyczne zamiany.
+W tym trybie wykonywane sÄ… **wyÅ‚Ä…cznie** automatyczne zamiany.
 
 _`Tryb interaktywny`
 ------------------------------------------------------------------------
 
-W tym trybie równie¿ wykonywane s± automatyczne zamiany, ale je¶li dla
-danego s³owa istnieje wiêcej ni¿ jedno s³owo, to u¿ytkownik jest proszony
+W tym trybie rÃ³wnieÅ¼ wykonywane sÄ… automatyczne zamiany, ale jeÅ›li dla
+danego sÅ‚owa istnieje wiÄ™cej niÅ¼ jedno sÅ‚owo, to uÅ¼ytkownik jest proszony
 o wybranie jednego.
 
-Je¶li zostanie podana opcja ``-d``, to w przypadku gdy nie uda siê znale¼æ
-¿adnego s³owa, u¿ytkownik jest proszony o wpisanie jakiego¶, nie
-wystêpuj±cego w s³owniku.
+JeÅ›li zostanie podana opcja ``-d``, to w przypadku gdy nie uda siÄ™ znaleÅºÄ‡
+Å¼adnego sÅ‚owa, uÅ¼ytkownik jest proszony o wpisanie jakiegoÅ›, nie
+wystÄ™pujÄ…cego w sÅ‚owniku.
 
-Poni¿ej ,,zrzut ekranu'' z trybu interaktywnego::
+PoniÅ¼ej ,,zrzut ekranu'' z trybu interaktywnego::
 
  ################################################################################
- 'Pliterki' zosta³y pomy¶lane g³ównie do uzupe³nienia brakuj±cych znaków
- diakrytycznych, czyli popularnych "ogonków". Ich rêczne dostawianie jest
- uci±¿liwe, a ponadto bardzo ³atwo co¶ przeoczyæ. Sile programu najlepiej
+ 'Pliterki' zostaÅ‚y pomyÅ›lane gÅ‚Ã³wnie do uzupeÅ‚nienia brakujÄ…cych znakÃ³w
+ diakrytycznych, czyli popularnych "ogonkÃ³w". Ich rÄ™czne dostawianie jest
+ uciÄ…Å¼liwe, a ponadto bardzo Å‚atwo coÅ› przeoczyÄ‡. Sile programu najlepiej
  						 ^^^^
  widac przy poprawianiu tekstow calkowicie wyzbytych polskich znakow
  diakrytycznych.
@@ -126,52 +126,52 @@ Poni¿ej ,,zrzut ekranu'' z trybu interaktywnego::
  co prawda nie jest poprawne, ale za to bardziej zwiezle od "polskich znakow
  === 12.5%% ======================================================================
  Enter - bez zmian
- 1) si³ê
+ 1) siÅ‚Ä™
  2) sile
- 3) silê
+ 3) silÄ™
  
- R - zamieñ; A - zamieñ wszystkie; A <numer> - zamieñ wszystkie na s³owo z listy
+ R - zamieÅ„; A - zamieÅ„ wszystkie; A <numer> - zamieÅ„ wszystkie na sÅ‚owo z listy
  I - ignoruj wszystkie
  X - nie pokazuj tego menu
- C - kontynnuj zamianê bez interakcji
+ C - kontynnuj zamianÄ™ bez interakcji
  Q - przerwij
  >
  ################################################################################
 
-Na górze ekranu wy¶wietlany jest fragment pliku, aktualnie przetwarzane
-s³owo jest podkre¶lone. Poni¿ej wy¶wietlana jest ponumerowana lista
-dostêpnych s³ów.
+Na gÃ³rze ekranu wyÅ›wietlany jest fragment pliku, aktualnie przetwarzane
+sÅ‚owo jest podkreÅ›lone. PoniÅ¼ej wyÅ›wietlana jest ponumerowana lista
+dostÄ™pnych sÅ‚Ã³w.
 
-Naci¶niêcie Entera powoduje pozostawienie s³owa bez zmian.
+NaciÅ›niÄ™cie Entera powoduje pozostawienie sÅ‚owa bez zmian.
 
 Wydanie polecenie **R** lub **A** (rozmiar liter nie ma znaczenia)
-wymaga wpisania s³owa; je¶li nie bêdzie ono nale¿a³o do s³ownika
-zostaniemy ostrze¿eni. Po zatwierdzeniu, **R** spowoduje zamianê
-pod¶wietlanego s³owa, natomiast **A** zamianê tego i wszystkich
-nastêpnych.
+wymaga wpisania sÅ‚owa; jeÅ›li nie bÄ™dzie ono naleÅ¼aÅ‚o do sÅ‚ownika
+zostaniemy ostrzeÅ¼eni. Po zatwierdzeniu, **R** spowoduje zamianÄ™
+podÅ›wietlanego sÅ‚owa, natomiast **A** zamianÄ™ tego i wszystkich
+nastÄ™pnych.
 
-Polecenia **I** spowoduje, ¿e zaznaczone s³owo zostanie uznane za
-poprawne i wiêcej nie bêdziemy nêkani pytaniami o jego pisowniê.
+Polecenia **I** spowoduje, Å¼e zaznaczone sÅ‚owo zostanie uznane za
+poprawne i wiÄ™cej nie bÄ™dziemy nÄ™kani pytaniami o jego pisowniÄ™.
 
-Polecenie **A <numer>** (spacja nie jest wymagana) jest szczególnie
-po¿yteczne je¶li widzimy, ¿e na li¶cie znajduj± siê s³owa, które na
-pewno w przetwarzanym tek¶cie nie wyst±pi±.  Np. dla ,,lub'' lista
-propozycji to: ,,³ub'' i ,,lub'' --- to pierwsze nie jest zbyt
+Polecenie **A <numer>** (spacja nie jest wymagana) jest szczegÃ³lnie
+poÅ¼yteczne jeÅ›li widzimy, Å¼e na liÅ›cie znajdujÄ… siÄ™ sÅ‚owa, ktÃ³re na
+pewno w przetwarzanym tekÅ›cie nie wystÄ…piÄ….  Np. dla ,,lub'' lista
+propozycji to: ,,Å‚ub'' i ,,lub'' --- to pierwsze nie jest zbyt
 powszechne.
 
-**UWAGA!** S³owa dodane poleceniami **R** i **A**, oraz te które zosta³y
-zignorowane poleceniem **I** nie s± nigdzie zapisywane. Co wiêcej, je¶li
-sprawdzamy wiele plików, to jeste¶my pytani czy skasowaæ te s³owa przed
-przyst±pieniem do sprawdzania nastêpnego pliku. Mo¿na wówczas skasowaæ,
-pozostawiæ s³owa i równie¿ ustawiæ, by program automatycznie kasowa³ lub
-nigdy nie kasowa³ obu zbiorów s³ów.
+**UWAGA!** SÅ‚owa dodane poleceniami **R** i **A**, oraz te ktÃ³re zostaÅ‚y
+zignorowane poleceniem **I** nie sÄ… nigdzie zapisywane. Co wiÄ™cej, jeÅ›li
+sprawdzamy wiele plikÃ³w, to jesteÅ›my pytani czy skasowaÄ‡ te sÅ‚owa przed
+przystÄ…pieniem do sprawdzania nastÄ™pnego pliku. MoÅ¼na wÃ³wczas skasowaÄ‡,
+pozostawiÄ‡ sÅ‚owa i rÃ³wnieÅ¼ ustawiÄ‡, by program automatycznie kasowaÅ‚ lub
+nigdy nie kasowaÅ‚ obu zbiorÃ³w sÅ‚Ã³w.
 
-Polecenie **X** ukrywa menu --- jest wy¶wietlana tylko lista s³ów.
+Polecenie **X** ukrywa menu --- jest wyÅ›wietlana tylko lista sÅ‚Ã³w.
 
-Polecenie **C** przerywa pracê interaktywn± i powoduje przej¶cie
+Polecenie **C** przerywa pracÄ™ interaktywnÄ… i powoduje przejÅ›cie
 w tryb nieinteraktywny.
 
-Polecenie **Q** przerywa pracê programu.
+Polecenie **Q** przerywa pracÄ™ programu.
 
 Licencja
 ------------------------------------------------------------------------
@@ -184,19 +184,19 @@ Historia zmian
 ------------------------------------------------------------------------
 
 20.01.2005
-	* rozszerzenie mo¿liwo¶ci funkcji generuj±cej prawdopodobne polskie s³owa
+	* rozszerzenie moÅ¼liwoÅ›ci funkcji generujÄ…cej prawdopodobne polskie sÅ‚owa
 
 17.01.2005
-	* znaczne przyspieszenie i ulepszenie funkcji generuj±cej
-	  prawdopodobne polskie s³owa
-	* sprawdzania plików HTML-owych (opcja ``-H`` lub ``--html``);
-	  sprawdzany i modyfikowany jest wy³±cznie tekst miêdzy tagami
-	  oraz tre¶æ atrybutów *title* i *alt*
-	* mo¿liwo¶æ wpisania s³owa, gdy program nic nie wymy¶li
+	* znaczne przyspieszenie i ulepszenie funkcji generujÄ…cej
+	  prawdopodobne polskie sÅ‚owa
+	* sprawdzania plikÃ³w HTML-owych (opcja ``-H`` lub ``--html``);
+	  sprawdzany i modyfikowany jest wyÅ‚Ä…cznie tekst miÄ™dzy tagami
+	  oraz treÅ›Ä‡ atrybutÃ³w *title* i *alt*
+	* moÅ¼liwoÅ›Ä‡ wpisania sÅ‚owa, gdy program nic nie wymyÅ›li
 	  (opcja ``-d``)
 
 
 Autor
 ------------------------------------------------------------------------
 
-Wojciech Mu³a, wojciech_mula#poczta!onet!pl ('#' = '@', '!' = '.')
+Wojciech MuÅ‚a, wojciech_mula#poczta!onet!pl ('#' = '@', '!' = '.')
