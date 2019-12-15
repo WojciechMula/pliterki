@@ -194,9 +194,3 @@ Historia zmian
 	  oraz treść atrybutów *title* i *alt*
 	* możliwość wpisania słowa, gdy program nic nie wymyśli
 	  (opcja ``-d``)
-
-
-Autor
-------------------------------------------------------------------------
-
-Wojciech Muła, wojciech_mula#poczta!onet!pl ('#' = '@', '!' = '.')
